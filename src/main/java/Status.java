@@ -38,4 +38,17 @@ public class Status {
     String getStatus() {
         return status;
     }
+
+    @Override
+    public String toString() {
+        return "Status{" +
+                "burn='" + burn + '\'' +
+                ", freeze='" + freeze + '\'' +
+                ", paralyze='" + paralyze + '\'' +
+                ", poison='" + poison + '\'' +
+                ", badPoison='" + badPoison + '\'' +
+                ", sloop='" + sloop + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

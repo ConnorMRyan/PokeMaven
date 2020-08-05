@@ -1,10 +1,17 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Fire is " + superEffective(types.FIRE, types.WATER) + " against Water");
-        System.out.println("Water is " + superEffective(types.WATER, types.FIRE) + " against Fire");
-        System.out.println("Ice is " + superEffective(types.ICE, types.DRAGON) + " against Dragon");
-        System.out.println("Electric is " + superEffective(types.ELECTRIC, types.FLYING) + " against Flying");
-        System.out.println("Ghost is " + superEffective(types.GHOST, types.PSYCHIC) + " against Psychic");
+        System.out.println("charmander used tackle on squirtle");
+        System.out.println("normal is " + superEffective(types.FIRE, types.WATER) + " against Water");
+
+        Monster charmander = new Monster(39, 52, 43, 50, 65, types.FIRE, types.NO_TYPE, 5);
+        Monster squirtle = new Monster(44, 48, 65, 50, 43, types.WATER, types.NO_TYPE, 5);
+
+        System.out.println("Attack " + squirtle.getATK() + " Def  " + squirtle.getDEF());
+
+        int damage = charmander.basicAttack(35, types.NORMAL, squirtle);
+        squirtle.takeDamage(damage);
+        System.out.println("Charmander dealt " + damage + " damage");
+        System.out.println("Squirtle has " + squirtle.getCURRENT_HP() + " out of " + squirtle.getTOTAL_HP());
 
     }
 
