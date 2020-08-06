@@ -2,29 +2,55 @@ import java.util.Random;
 
 public class Monster {
     private final int TOTAL_HP; // Amount of health
-    private int CURRENT_HP; // Amount of current health
+    private int currentHp; // Amount of current health
     private final int ATK; // Physical attacking power
     private final int DEF; // Physical defensive power
     private final int SPC; // Special attack and defense
     private final int SPD; // Speed
-    private final int typeOne; // Monster's primary type
-    private final int typeTwo; // Optional secondary type
-    private final int level;
+    private final int TYPE_ONE; // Monster's primary type
+    private final int TYPE_TWO; // Optional secondary type
+    private final int LEVEL;
     public boolean fainted;
     private final Status status;
+    private final String NAME;
+    private final String FAMILY_NAME;
 
-    Monster(int HP, int ATK, int DEF, int SPC, int SPD, int typeOne, int typeTwo, int level) {
+    Monster(int HP, int ATK, int DEF, int SPC, int SPD, int TYPE_ONE, int TYPE_TWO, int LEVEL, String NAME, String FAMILY_NAME) {
         status = new Status();
-        this.level = level;
-        this.TOTAL_HP = convertBaseStat(HP) + 5 + level;
-        this.CURRENT_HP = convertBaseStat(HP) + 5 + level;
+        this.LEVEL = LEVEL;
+        this.TOTAL_HP = convertBaseStat(HP) + 5 + LEVEL;
+        this.currentHp = convertBaseStat(HP) + 5 + LEVEL;
         this.ATK = convertBaseStat(ATK);
         this.DEF = convertBaseStat(DEF);
         this.SPC = convertBaseStat(SPC);
         this.SPD = convertBaseStat(SPD);
-        this.typeOne = typeOne;
-        this.typeTwo = typeTwo;
+        this.TYPE_ONE = TYPE_ONE;
+        this.TYPE_TWO = TYPE_TWO;
+        this.NAME = NAME;
+        this.FAMILY_NAME = FAMILY_NAME;
 
+
+    }
+
+    Monster(int HP, int ATK, int DEF, int SPC, int SPD, int TYPE_ONE, int TYPE_TWO, int LEVEL, String FAMILY_NAME) {
+        status = new Status();
+        this.LEVEL = LEVEL;
+        this.TOTAL_HP = convertBaseStat(HP) + 5 + LEVEL;
+        this.currentHp = convertBaseStat(HP) + 5 + LEVEL;
+        this.ATK = convertBaseStat(ATK);
+        this.DEF = convertBaseStat(DEF);
+        this.SPC = convertBaseStat(SPC);
+        this.SPD = convertBaseStat(SPD);
+        this.TYPE_ONE = TYPE_ONE;
+        this.TYPE_TWO = TYPE_TWO;
+        this.NAME = FAMILY_NAME;
+        this.FAMILY_NAME = FAMILY_NAME;
+
+
+    }
+
+    public String toString() {
+        return NAME + " is a level " + LEVEL + " " + FAMILY_NAME;
     }
 
     public int basicAttack(int attackPower, int attackType, Monster defender) {
@@ -36,7 +62,7 @@ public class Monster {
         }
         return (int)
                 Math.round(
-                        ((((((2 * level * crit) / 5.) + 2) * attackPower * (ATK / (double) defender.DEF)) / 50.
+                        ((((((2 * LEVEL * crit) / 5.) + 2) * attackPower * (ATK / (double) defender.DEF)) / 50
                                 + 2) * modifier));
     }
 
@@ -44,13 +70,15 @@ public class Monster {
         Random random = new Random();
         int val = random.nextInt(38);
         double STAB = 1;
-        if (typeOne == attackType || typeTwo == attackType) {
+        if (TYPE_ONE == attackType || TYPE_TWO == attackType) {
             STAB = 1.5;
         }
-        return ((217 + val) / 255.)
+        double modifier = ((217 + val) / 255.)
                 * STAB
-                * types.TYPE_EFFECTIVNESS[attackType][defender.typeOne]
-                * types.TYPE_EFFECTIVNESS[attackType][defender.typeTwo];
+                * types.TYPE_EFFECTIVNESS[attackType][defender.TYPE_ONE]
+                * types.TYPE_EFFECTIVNESS[attackType][defender.TYPE_TWO];
+        System.out.println(modifier);
+        return modifier;
         //  * status;
     }
 
@@ -77,15 +105,15 @@ public class Monster {
     }
 
     void takeDamage(int damage) {
-        CURRENT_HP = CURRENT_HP - damage;
-        if (CURRENT_HP <= 0) {
-            CURRENT_HP = 0;
+        currentHp = currentHp - damage;
+        if (currentHp <= 0) {
+            currentHp = 0;
             fainted = true;
         }
     }
 
-    public int getCURRENT_HP() {
-        return CURRENT_HP;
+    public int getCurrentHp() {
+        return currentHp;
     }
 
     public int getATK() {
@@ -96,8 +124,8 @@ public class Monster {
         return DEF;
     }
 
-    public int getLevel() {
-        return level;
+    public int getLEVEL() {
+        return LEVEL;
     }
 
     public int getSPC() {
@@ -112,12 +140,12 @@ public class Monster {
         return TOTAL_HP;
     }
 
-    public int getTypeOne() {
-        return typeOne;
+    public int getTYPE_ONE() {
+        return TYPE_ONE;
     }
 
-    public int getTypeTwo() {
-        return typeTwo;
+    public int getTYPE_TWO() {
+        return TYPE_TWO;
     }
 
     public Status getStatus() {
@@ -125,6 +153,6 @@ public class Monster {
     }
 
     private int convertBaseStat(int stat) {
-        return (((((stat + 15) * 2) + 63) * this.level) / 100) + 5;
+        return (((((stat + 15) * 2) + 63) * this.LEVEL) / 100) + 5;
     }
 }

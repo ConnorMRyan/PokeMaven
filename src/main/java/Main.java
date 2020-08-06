@@ -1,17 +1,19 @@
+import java.sql.SQLException;
+
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("charmander used tackle on squirtle");
-        System.out.println("normal is " + superEffective(types.FIRE, types.WATER) + " against Water");
+    public static void main(String[] args) throws SQLException {
+        DatabaseConnection db = new DatabaseConnection();
+        Monster charmander = db.makeAMonster(4, 5, "Charlie");
+        Monster squirtle = db.makeAMonster("Squirtle", 5);
 
-        Monster charmander = new Monster(39, 52, 43, 50, 65, types.FIRE, types.NO_TYPE, 5);
-        Monster squirtle = new Monster(44, 48, 65, 50, 43, types.WATER, types.NO_TYPE, 5);
-
-        System.out.println("Attack " + squirtle.getATK() + " Def  " + squirtle.getDEF());
-
-        int damage = charmander.basicAttack(35, types.NORMAL, squirtle);
+        int damage = charmander.basicAttack(40, types.NORMAL, squirtle);
         squirtle.takeDamage(damage);
         System.out.println("Charmander dealt " + damage + " damage");
-        System.out.println("Squirtle has " + squirtle.getCURRENT_HP() + " out of " + squirtle.getTOTAL_HP());
+        System.out.println("Squirtle has " + squirtle.getCurrentHp() + " out of " + squirtle.getTOTAL_HP());
+
+        System.out.println(charmander);
+        System.out.println(squirtle);
+
 
     }
 
