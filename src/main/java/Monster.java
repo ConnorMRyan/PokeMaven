@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Monster {
@@ -14,6 +15,7 @@ public class Monster {
     private final Status status;
     private final String NAME;
     private final String FAMILY_NAME;
+    private final ArrayList<Move> movesList = new ArrayList<Move>();
 
     Monster(int HP, int ATK, int DEF, int SPC, int SPD, int TYPE_ONE, int TYPE_TWO, int LEVEL, String NAME, String FAMILY_NAME) {
         status = new Status();
@@ -53,8 +55,8 @@ public class Monster {
         return NAME + " is a level " + LEVEL + " " + FAMILY_NAME;
     }
 
-    public int basicAttack(int attackPower, int attackType, Monster defender) {
-        double modifier = getModifier(attackType, defender);
+    public int basicAttack(Move move, Monster defender) {
+        double modifier = getModifier(move.type, defender);
         int crit = 1;
         if (isACrit()) {
             System.out.println("Was a crit");
@@ -62,7 +64,7 @@ public class Monster {
         }
         return (int)
                 Math.round(
-                        ((((((2 * LEVEL * crit) / 5.) + 2) * attackPower * (ATK / (double) defender.DEF)) / 50
+                        ((((((2 * LEVEL * crit) / 5.) + 2) * move.getPower() * (ATK / (double) defender.DEF)) / 50
                                 + 2) * modifier));
     }
 
@@ -73,13 +75,11 @@ public class Monster {
         if (TYPE_ONE == attackType || TYPE_TWO == attackType) {
             STAB = 1.5;
         }
-        double modifier = ((217 + val) / 255.)
+        return ((217 + val) / 255.)
                 * STAB
                 * types.TYPE_EFFECTIVNESS[attackType][defender.TYPE_ONE]
                 * types.TYPE_EFFECTIVNESS[attackType][defender.TYPE_TWO];
-        System.out.println(modifier);
-        return modifier;
-        //  * status;
+
     }
 
     private boolean isACrit() {
@@ -88,6 +88,20 @@ public class Monster {
         int target = random.nextInt(256);
         int critNum = Math.min(255, tVal);
         return target < critNum;
+    }
+
+    public void addMove(Move move) {
+        movesList.add(move);
+    }
+
+    public Move getMove(int ID) {
+        return movesList.get(ID);
+    }
+
+    public void printMoves() {
+        for (Move move : movesList) {
+            System.out.println(move);
+        }
     }
 
     private boolean isACrit(boolean highCritMove, boolean modifier) {
@@ -114,6 +128,21 @@ public class Monster {
 
     public int getCurrentHp() {
         return currentHp;
+    }
+
+    public String getNAME() {
+        return NAME;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Monster) {
+            return (((Monster) obj).ATK == this.ATK) && (((Monster) obj).DEF == this.DEF)
+                    && (((Monster) obj).SPC == this.SPC) && (((Monster) obj).SPD == this.SPD) && (((Monster) obj).TOTAL_HP == this.TOTAL_HP)
+                    && (((Monster) obj).FAMILY_NAME.equals(this.FAMILY_NAME));
+        } else {
+            return false;
+        }
     }
 
     public int getATK() {
