@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Team {
     String trainerName;
     ArrayList<Monster> teamList = new ArrayList<Monster>();
+    Monster activeMonster;
 
     Team(String trainerName) {
         this.trainerName = trainerName;
@@ -20,4 +21,14 @@ public class Team {
     void removeMonster(int ID) {
         teamList.remove(ID);
     }
+
+    void setActiveMonster(Monster monster) {
+        activeMonster = monster;
+    }
+
+    Monster getMonster(int id) {
+        return teamList.get(id);
+    }
+
+
 }

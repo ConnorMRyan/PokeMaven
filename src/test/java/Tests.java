@@ -7,12 +7,12 @@ public class Tests {
     Monster testmander = db.makeAMonster(4, 5, "Charlie");
     Monster testle = db.makeAMonster("Squirtle", 5);
 
-    public Tests() throws SQLException {
+    public Tests() {
     }
 
     @Test
     void moveTest() {
-        int damage = testmander.basicAttack(35, types.NORMAL, testle);
+        //int damage = testmander.basicAttack(35, types.NORMAL, testle);
         assert (true);
     }
 
@@ -30,4 +30,10 @@ public class Tests {
         assert (assertedTrue.equals(methodResult));
     }
 
+    @Test
+    void equalityCheck() {
+        Monster henry = db.makeAMonster(4, 5);
+        assert (henry.equals(testmander));
+        assert (!henry.equals(testle));
+    }
 }
