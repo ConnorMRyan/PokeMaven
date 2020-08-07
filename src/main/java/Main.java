@@ -1,20 +1,14 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws FileNotFoundException {
         DatabaseConnection db = new DatabaseConnection();
-        Monster charmander = db.makeAMonster(4, 5, "Charlie");
-        Monster squirtle = db.makeAMonster("Squirtle", 5);
-
-        int damage = charmander.basicAttack(40, types.NORMAL, squirtle);
-        squirtle.takeDamage(damage);
-        System.out.println("Charmander dealt " + damage + " damage");
-        System.out.println("Squirtle has " + squirtle.getCurrentHp() + " out of " + squirtle.getTOTAL_HP());
-
-        System.out.println(charmander);
-        System.out.println(squirtle);
-
-
+        Team one = TeamParser.makeTeam(new File("src/main/java/BrockTeam"));
+        Monster geo = one.getMonster(0);
+        int damage = geo.basicAttack(geo.getMove(0), one.getMonster(1));
+        System.out.println(geo.getNAME() + " did " + damage + " to " + one.getMonster(1).getNAME());
     }
 
     static String superEffective(int typeOne, int typeTwo) {
