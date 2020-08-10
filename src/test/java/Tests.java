@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class Tests {
     DatabaseConnection db = new DatabaseConnection();
@@ -36,4 +37,15 @@ public class Tests {
         assert (henry.equals(testmander));
         assert (!henry.equals(testle));
     }
+
+    @Test
+    void testTeambuilder() {
+        TeamBuilder teamBuilder = new TeamBuilder();
+        teamBuilder.createScanner();
+        teamBuilder.getNick();
+
+
+    }
+
 }
+

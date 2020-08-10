@@ -37,4 +37,41 @@ public class types {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1}, // Dragon
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} // No type, shouldn't be needed...
     };
+
+    static int getType(String type) {
+        switch (type.toUpperCase()) {
+            case ("NORMAL"):
+                return 0;
+            case ("FIRE"):
+                return 1;
+            case ("WATER"):
+                return 2;
+            case ("ELECTRIC"):
+                return 3;
+            case ("GRASS"):
+                return 4;
+            case ("ICE"):
+                return 5;
+            case ("FIGHTING"):
+                return 6;
+            case ("POISON"):
+                return 7;
+            case ("GROUND"):
+                return 8;
+            case ("FLYING"):
+                return 9;
+            case ("PSYCHIC"):
+                return 10;
+            case ("BUG"):
+                return 11;
+            case ("ROCK"):
+                return 12;
+            case ("GHOST"):
+                return 13;
+            case ("DRAGON"):
+                return 14;
+            default:
+                return 15;
+        }
+    }
 }

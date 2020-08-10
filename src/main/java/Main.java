@@ -1,11 +1,14 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
-        DatabaseConnection db = new DatabaseConnection();
-        Team one = TeamParser.makeTeam(new File("src/main/java/BrockTeam"));
+    public static void main(String[] args) throws IOException {
+        TeamBuilder teamBuilder = new TeamBuilder();
+        teamBuilder.writeTeam();
+        //DatabaseConnection db = new DatabaseConnection();
+        Team one = TeamParser.makeTeam(new File("Ash"));
         Monster geo = one.getMonster(0);
         int damage = geo.basicAttack(geo.getMove(0), one.getMonster(1));
         System.out.println(geo.getNAME() + " did " + damage + " to " + one.getMonster(1).getNAME());
