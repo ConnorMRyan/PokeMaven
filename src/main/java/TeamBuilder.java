@@ -2,8 +2,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import org.json.simple.JSONObject;
+
 public class TeamBuilder {
     private Scanner in;
+    private DatabaseConnection db;
 
     TeamBuilder() {
     }
@@ -11,7 +14,7 @@ public class TeamBuilder {
     public void writeTeam() throws IOException {
         createScanner();
         String nick = getUsername();
-        FileWriter fileWriter = new FileWriter(nick);
+        FileWriter fileWriter = new FileWriter(nick + ".txt");
         fileWriter.write(nick + "\n");
         int numPoke = numPokemon();
         fileWriter.write(numPoke + "\n");
@@ -20,11 +23,22 @@ public class TeamBuilder {
             fileWriter.write(numMoves + "\n");
             fileWriter.write(getPokeString());
             for (int j = 0; j < numMoves; j++) {
-                fileWriter.write(pokemonMoves());
+                if (useAPIMove()) {
+                    PokeMove pokeMove = pokeMovesAPI();
+                    fileWriter.write("" + pokeMove.power + "," + pokeMove.accuracy + "," + pokeMove.type + "," + pokeMove.PP + "," + pokeMove.moveName + "\n");
+                } else {
+                    fileWriter.write(pokemonMovesMan());
+                }
             }
         }
+        fileWriter.flush();
         fileWriter.close();
         closeScanner();
+    }
+
+    boolean validPokemon(String pokemon) {
+        DatabaseConnection db = new DatabaseConnection();
+        return db.isValidPoke(pokemon);
     }
 
     String getUsername() {
@@ -47,15 +61,32 @@ public class TeamBuilder {
         // todo, validate user input;
         System.out.println("What is the species of pokemon you want ");
         String familyName = in.next();
-        int level = getLevel();
+        if (validPokemon(familyName)) {
+            int level = getLevel();
 
-        String nick;
-        if (hasNick()) {
-            nick = getNick();
+            String nick;
+            if (hasNick()) {
+                nick = getNick();
+            } else {
+                nick = familyName;
+            }
+            return familyName + "," + level + "," + nick + "\n";
         } else {
-            nick = familyName;
+            return getPokeString();
         }
-        return familyName + "," + level + "," + nick + "\n";
+    }
+
+    boolean useAPIMove() {
+        System.out.println("Would you like to use the ID to find the move? (y/N)");
+        if (in.next().toUpperCase().charAt(0) == 'Y') {
+            return true;
+        } else if (in.next().toUpperCase().charAt(0) == 'N') {
+            return false;
+        } else {
+            System.out.println("Sorry I didn't understand");
+            return useAPIMove();
+        }
+
     }
 
     int getLevel() {
@@ -84,7 +115,13 @@ public class TeamBuilder {
         this.in = new Scanner(System.in);
     }
 
-    String pokemonMoves() {
+    PokeMove pokeMovesAPI() {
+        System.out.println("What is the ID of your move?");
+        return new PokeMove(in.nextInt());
+
+    }
+
+    String pokemonMovesMan() {
         // This is an example move for rockthrow "50,90,12,15,RockThrow"
         System.out.println("What is the name of the move?");
         String movename = in.next();
@@ -105,7 +142,7 @@ public class TeamBuilder {
         int numMoves = in.nextInt();
         if (numMoves < 1 || numMoves > 4) {
             System.out.println("Sorry you aren't allowed to have that many moves.");
-            return numMoves;
+            return numMoves();
         }
         return numMoves;
     }

@@ -15,7 +15,7 @@ public class Monster {
     private final Status status;
     private final String NAME;
     private final String FAMILY_NAME;
-    private final ArrayList<Move> movesList = new ArrayList<Move>();
+    private final ArrayList<PokeMove> movesList = new ArrayList<>();
 
     Monster(int HP, int ATK, int DEF, int SPC, int SPD, int TYPE_ONE, int TYPE_TWO, int LEVEL, String NAME, String FAMILY_NAME) {
         status = new Status();
@@ -55,8 +55,8 @@ public class Monster {
         return NAME + " is a level " + LEVEL + " " + FAMILY_NAME;
     }
 
-    public int basicAttack(Move move, Monster defender) {
-        double modifier = getModifier(move.type, defender);
+    public int basicAttack(PokeMove pokeMove, Monster defender) {
+        double modifier = getModifier(pokeMove.type, defender);
         int crit = 1;
         if (isACrit()) {
             System.out.println("Was a crit");
@@ -64,7 +64,7 @@ public class Monster {
         }
         return (int)
                 Math.round(
-                        ((((((2 * LEVEL * crit) / 5.) + 2) * move.getPower() * (ATK / (double) defender.DEF)) / 50
+                        ((((((2 * LEVEL * crit) / 5.) + 2) * pokeMove.getPower() * (ATK / (double) defender.DEF)) / 50
                                 + 2) * modifier));
     }
 
@@ -90,17 +90,17 @@ public class Monster {
         return target < critNum;
     }
 
-    public void addMove(Move move) {
-        movesList.add(move);
+    public void addMove(PokeMove pokeMove) {
+        movesList.add(pokeMove);
     }
 
-    public Move getMove(int ID) {
+    public PokeMove getMove(int ID) {
         return movesList.get(ID);
     }
 
     public void printMoves() {
-        for (Move move : movesList) {
-            System.out.println(move);
+        for (PokeMove pokeMove : movesList) {
+            System.out.println(pokeMove);
         }
     }
 
@@ -179,6 +179,10 @@ public class Monster {
 
     public Status getStatus() {
         return status;
+    }
+
+    public ArrayList<PokeMove> getMovesList() {
+        return movesList;
     }
 
     private int convertBaseStat(int stat) {

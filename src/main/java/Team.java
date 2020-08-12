@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Team {
     String trainerName;
-    ArrayList<Monster> teamList = new ArrayList<Monster>();
+    ArrayList<Monster> teamList = new ArrayList<>();
     Monster activeMonster;
 
     Team(String trainerName) {
@@ -30,5 +30,15 @@ public class Team {
         return teamList.get(id);
     }
 
+    boolean canContinue() {
+        boolean canContinue = false;
+        for (Monster monster : teamList) {
+            canContinue = canContinue || !monster.fainted;
+        }
+        return canContinue;
+    }
 
+    int numPokemon() {
+        return teamList.size();
+    }
 }

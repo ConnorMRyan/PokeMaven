@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 //Takes in and creates a new team from a File
@@ -28,7 +27,7 @@ public class TeamParser {
                     String moveString = in.nextLine();
                     Scanner moveScan = new Scanner(moveString);
                     moveScan.useDelimiter(",");
-                    monster.addMove(new Move(moveScan.nextInt(), moveScan.nextInt(), moveScan.nextInt(), moveScan.nextInt(), moveScan.next()));
+                    monster.addMove(new PokeMove(moveScan.nextInt(), moveScan.nextInt(), moveScan.nextInt(), moveScan.nextInt(), moveScan.next()));
                 }
                 team.addMonster(monster);
             } else {
@@ -37,7 +36,7 @@ public class TeamParser {
                     String moveString = in.next();
                     Scanner moveScan = new Scanner(moveString);
                     moveScan.useDelimiter(",");
-                    monster.addMove(new Move(moveScan.nextInt(), moveScan.nextInt(), moveScan.nextInt(), moveScan.nextInt(), moveScan.next()));
+                    monster.addMove(new PokeMove(moveScan.nextInt(), moveScan.nextInt(), moveScan.nextInt(), moveScan.nextInt(), moveScan.next()));
                 }
                 team.addMonster(monster);
             }

@@ -1,3 +1,4 @@
+import javax.xml.transform.Result;
 import java.sql.*;
 
 public class DatabaseConnection {
@@ -59,6 +60,19 @@ public class DatabaseConnection {
         } catch (Exception e) {
             System.err.println("Couldn't create pokemon");
             return new Monster(0, 0, 0, 0, 0, 0, 0, 0, "missingNo");
+        }
+    }
+
+    public boolean isValidPoke(String pokename) {
+        String query = "SELECT * from pokemon where pokemon.name = '" + pokename + "'";
+        try {
+            Statement stmt = db.createStatement();
+            ResultSet resultSet = stmt.executeQuery(query);
+            resultSet.next();
+            return resultSet.getString("name") != null;
+        } catch (Exception e) {
+            System.err.println("Sorry, that is not a valid pokemon name.");
+            return false;
         }
     }
 
