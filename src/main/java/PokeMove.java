@@ -36,49 +36,47 @@ public class PokeMove {
     this.moveName = move.getName();
   }
 
-  PokeMove(int power, int accuracy, int type, int PP, String moveName) {
-    this.power = power;
-    this.accuracy = accuracy;
-    this.moveName = moveName;
-    this.type = type;
-    this.PP = PP;
-  }
+    PokeMove(int power, int accuracy, int type, int PP, String moveName) {
+        this.power = power;
+        this.accuracy = accuracy;
+        this.moveName = moveName;
+        this.type = type;
+        this.PP = PP;
+    }
 
-  @Override
-  public String toString() {
-    return "Move{"
-            + "power="
-            + power
-            + ", accuracy="
-            + accuracy
-            + ", moveName='"
-            + moveName
-            + '\''
-            + ", type="
-            + type
-            + '}';
-  }
+    @Override
+    public String toString() {
+        return moveName;
+    }
 
+    public String fancyString() {
+        return "Move{"
+                + "power="
+                + power
+                + ", accuracy="
+                + accuracy
+                + ", moveName='"
+                + moveName
+                + '\''
+                + ", type="
+                + types.typeName(type) +
+                +'}';
+  }
   public int getAccuracy() {
     return accuracy;
   }
-
   public int getPower() {
     return power;
   }
-
   public void usePP() {
     PP = PP - 1;
   }
-
   public int getPP() {
     return PP;
   }
-
   public int getType() {
     return type;
   }
-
   public String getMoveName() {
     return moveName;
   }

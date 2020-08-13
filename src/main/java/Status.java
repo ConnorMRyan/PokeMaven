@@ -47,7 +47,7 @@ public class Status {
                 ", paralyze='" + paralyze + '\'' +
                 ", poison='" + poison + '\'' +
                 ", badPoison='" + badPoison + '\'' +
-                ", sloop='" + sloop + '\'' +
+                ", sleep='" + sloop + '\'' +
                 ", status='" + status + '\'' +
                 '}';
     }

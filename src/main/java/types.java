@@ -1,5 +1,4 @@
 public class types {
-    // For pokemon without a secondary type.
     public static final int NORMAL = 0;
     public static final int FIRE = 1;
     public static final int WATER = 2;
@@ -15,7 +14,7 @@ public class types {
     public static final int ROCK = 12;
     public static final int GHOST = 13;
     public static final int DRAGON = 14;
-    public static final int NO_TYPE = 15;
+    public static final int NO_TYPE = 15; // For pokemon without a secondary type.
 
     // If a type is normally effective, 1, super effective is 2, not very effective is 0.5, and immune
     // is 0
@@ -74,4 +73,42 @@ public class types {
                 return 15;
         }
     }
+
+    static String typeName(int id) {
+        switch (id) {
+            case (0):
+                return "NORMAL";
+            case (1):
+                return "FIRE";
+            case (2):
+                return "WATER";
+            case (3):
+                return "ELECTRIC";
+            case (4):
+                return "GRASS";
+            case (5):
+                return "ICE";
+            case (6):
+                return "FIGHTING";
+            case (7):
+                return "POISON";
+            case (8):
+                return "GROUND";
+            case (9):
+                return "FLYING";
+            case (10):
+                return "PSYCHIC";
+            case (11):
+                return "BUG";
+            case (12):
+                return "ROCK";
+            case (13):
+                return "GHOST";
+            case (14):
+                return "DRAGON";
+            default:
+                return "NO TYPE";
+        }
+    }
 }
+

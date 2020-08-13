@@ -7,7 +7,15 @@ public class Team {
 
     Team(String trainerName) {
         this.trainerName = trainerName;
+    }
 
+    @Override
+    public String toString() {
+        return "Team{" +
+                "trainerName='" + trainerName + '\'' +
+                ", teamList=" + teamList +
+                ", activeMonster=" + activeMonster +
+                '}';
     }
 
     void addMonster(Monster monster) {
@@ -16,6 +24,10 @@ public class Team {
         } else {
             System.err.println("You can only have 6 pokemon");
         }
+    }
+
+    public ArrayList<Monster> getTeamList() {
+        return teamList;
     }
 
     void removeMonster(int ID) {
