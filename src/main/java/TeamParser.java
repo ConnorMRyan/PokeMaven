@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-//Takes in and creates a new team from a File
+// Takes in and creates a new team from a File
 
 public class TeamParser {
     static Team makeTeam(File file) throws FileNotFoundException {
@@ -27,7 +27,13 @@ public class TeamParser {
                     String moveString = in.nextLine();
                     Scanner moveScan = new Scanner(moveString);
                     moveScan.useDelimiter(",");
-                    monster.addMove(new PokeMove(moveScan.nextInt(), moveScan.nextInt(), moveScan.nextInt(), moveScan.nextInt(), moveScan.next()));
+                    monster.addMove(
+                            new BattleMove(
+                                    moveScan.nextInt(),
+                                    moveScan.nextInt(),
+                                    moveScan.nextInt(),
+                                    moveScan.nextInt(),
+                                    moveScan.next()));
                 }
                 team.addMonster(monster);
             } else {
@@ -36,7 +42,13 @@ public class TeamParser {
                     String moveString = in.next();
                     Scanner moveScan = new Scanner(moveString);
                     moveScan.useDelimiter(",");
-                    monster.addMove(new PokeMove(moveScan.nextInt(), moveScan.nextInt(), moveScan.nextInt(), moveScan.nextInt(), moveScan.next()));
+                    monster.addMove(
+                            new BattleMove(
+                                    moveScan.nextInt(),
+                                    moveScan.nextInt(),
+                                    moveScan.nextInt(),
+                                    moveScan.nextInt(),
+                                    moveScan.next()));
                 }
                 team.addMonster(monster);
             }
@@ -46,4 +58,7 @@ public class TeamParser {
         return team;
     }
 
+    static void saveTeam(Team team) {
+
+    }
 }

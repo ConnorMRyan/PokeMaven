@@ -2,6 +2,12 @@
 A command line to allow multiple players to recreate generation 1 pokemon battles.
 
 ##Features
-- [ ] Allows the user to recreate teams easily
+- [x] Allows the user to recreate teams easily
     - [x] Allows players to import pokemon teams from saved files
-    - [ ] Provides a character creator to easily build teams"# pokeproject" 
+    - [x] Provides a character creator to easily build teams"# pokeproject" 
+
+- [ ] Allow the user to save a team to a database. 
+
+
+
+     
