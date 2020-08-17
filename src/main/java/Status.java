@@ -41,14 +41,28 @@ public class Status {
 
     @Override
     public String toString() {
-        return "Status{" +
-                "burn='" + burn + '\'' +
-                ", freeze='" + freeze + '\'' +
-                ", paralyze='" + paralyze + '\'' +
-                ", poison='" + poison + '\'' +
-                ", badPoison='" + badPoison + '\'' +
-                ", sleep='" + sloop + '\'' +
-                ", status='" + status + '\'' +
-                '}';
+        return "Status{"
+                + "burn='"
+                + burn
+                + '\''
+                + ", freeze='"
+                + freeze
+                + '\''
+                + ", paralyze='"
+                + paralyze
+                + '\''
+                + ", poison='"
+                + poison
+                + '\''
+                + ", badPoison='"
+                + badPoison
+                + '\''
+                + ", sleep='"
+                + sloop
+                + '\''
+                + ", status='"
+                + status
+                + '\''
+                + '}';
     }
 }

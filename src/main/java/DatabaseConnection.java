@@ -1,12 +1,16 @@
-import javax.xml.transform.Result;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class DatabaseConnection {
     Connection db;
 
     DatabaseConnection() {
         try {
-            this.db = DriverManager.getConnection("jdbc:postgresql://localhost/pokeMaven", "postgres", "password");
+            this.db =
+                    DriverManager.getConnection(
+                            "jdbc:postgresql://localhost/pokeMaven", "postgres", "password");
         } catch (Exception e) {
             System.err.println("Could not connect!");
         }
@@ -37,14 +41,20 @@ public class DatabaseConnection {
             Statement stmt = db.createStatement();
             ResultSet results = stmt.executeQuery(query);
             results.next();
-            return new Monster(results.getInt("HP"), results.getInt("Attack"),
-                    results.getInt("Defense"), results.getInt("Special"),
-                    results.getInt("Speed"), results.getInt("typeOne"),
-                    results.getInt("typeTwo"), level, name, results.getString("name"));
+            return new Monster(
+                    results.getInt("HP"),
+                    results.getInt("Attack"),
+                    results.getInt("Defense"),
+                    results.getInt("Special"),
+                    results.getInt("Speed"),
+                    results.getInt("typeOne"),
+                    results.getInt("typeTwo"),
+                    level,
+                    name,
+                    results.getString("name"));
         } catch (Exception e) {
             System.err.println("Couldn't create pokemon");
             return new Monster(0, 0, 0, 0, 0, 0, 0, 0, "missingNo");
-
         }
     }
 
@@ -53,10 +63,16 @@ public class DatabaseConnection {
             Statement stmt = db.createStatement();
             ResultSet results = stmt.executeQuery(query);
             results.next();
-            return new Monster(results.getInt("HP"), results.getInt("Attack"),
-                    results.getInt("Defense"), results.getInt("Special"),
-                    results.getInt("Speed"), results.getInt("typeOne"),
-                    results.getInt("typeTwo"), level, results.getString("name"));
+            return new Monster(
+                    results.getInt("HP"),
+                    results.getInt("Attack"),
+                    results.getInt("Defense"),
+                    results.getInt("Special"),
+                    results.getInt("Speed"),
+                    results.getInt("typeOne"),
+                    results.getInt("typeTwo"),
+                    level,
+                    results.getString("name"));
         } catch (Exception e) {
             System.err.println("Couldn't create pokemon");
             return new Monster(0, 0, 0, 0, 0, 0, 0, 0, "missingNo");
@@ -75,6 +91,4 @@ public class DatabaseConnection {
             return false;
         }
     }
-
 }
-
