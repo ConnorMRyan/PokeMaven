@@ -38,8 +38,13 @@ public class Team {
     teamList.remove(ID);
   }
 
-  void setActiveMonster(Monster monster) {
-    activeMonster = monster;
+  void setActiveMonster() {
+    for (Monster monster : teamList) {
+      if (!monster.fainted) {
+        activeMonster = monster;
+        break;
+      }
+    }
   }
 
   Monster getMonster(int id) {

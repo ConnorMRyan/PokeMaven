@@ -15,9 +15,9 @@ public class Battle {
     this.activeTeam = teamOne;
     this.teamTwo = teamTwo;
     this.inactiveTeam = teamTwo;
-    teamOne.setActiveMonster(teamOne.getMonster(0));
-    teamTwo.setActiveMonster(teamTwo.getMonster(0));
-    while (!checkWon()) {
+    teamOne.setActiveMonster();
+    teamTwo.setActiveMonster();
+    while (!checkLost()) {
       BattleAction playerOne = battleTurn();
       switchActive();
       BattleAction playerTwo = battleTurn();
@@ -33,8 +33,8 @@ public class Battle {
     if (teamOne.canContinue()) {
       System.out.println(teamOne.trainerName + " Won!");
     }
-    if (teamOne.canContinue()) {
-      // System.out.println(teamTwo.trainerName + "Won!");
+    if (teamTwo.canContinue()) {
+      System.out.println(teamTwo.trainerName + "Won!");
     }
   }
 
@@ -43,9 +43,9 @@ public class Battle {
     this.activeTeam = teamOne;
     this.teamTwo = teamTwo;
     this.inactiveTeam = teamTwo;
-    teamOne.setActiveMonster(teamOne.getMonster(0));
-    teamTwo.setActiveMonster(teamTwo.getMonster(0));
-    while (!checkWon()) {
+    teamOne.setActiveMonster();
+    teamTwo.setActiveMonster();
+    while (checkLost()) {
       BattleAction ba = battleTurn();
       Random rand = new Random();
       MoveBase moveToUse = teamTwo.activeMonster.getMove(rand.nextInt(activeTeam.activeMonster.getMovesList().size() - 1));
@@ -54,7 +54,7 @@ public class Battle {
         if (!inactiveTeam.activeMonster.fainted) {
           moveToUse.execute(inactiveTeam.activeMonster, activeTeam.activeMonster);
         } else {
-          inactiveTeam.setActiveMonster(inactiveTeam.getMonster(1));
+          inactiveTeam.setActiveMonster();
         }
         displayHP(teamOne.activeMonster);
         displayHP(teamTwo.activeMonster);
@@ -64,16 +64,16 @@ public class Battle {
     if (teamOne.canContinue()) {
       System.out.println(teamOne.trainerName + " Won!");
     }
-    if (teamOne.canContinue()) {
-      // System.out.println(teamTwo.trainerName + "Won!");
+    if (teamTwo.canContinue()) {
+      System.out.println(teamTwo.trainerName + "Won!");
     }
 
 
   }
 
-  boolean checkWon() {
+  boolean checkLost() {
     // check if both teams can continue, if they can the battle hasn't been won yet.
-    return !(teamOne.canContinue() && teamTwo.canContinue());
+    return (teamOne.canContinue() && teamTwo.canContinue());
   }
 
   void playerTurn() {
