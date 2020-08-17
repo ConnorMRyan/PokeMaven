@@ -4,6 +4,7 @@ import me.sargunvohra.lib.pokekotlin.model.Move;
 import me.sargunvohra.lib.pokekotlin.model.NamedApiResource;
 
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class BattleMove extends MoveBase {
   int power;
@@ -14,6 +15,11 @@ public class BattleMove extends MoveBase {
   int maxPP;
   int priority = 1;
 
+
+  BattleMove(String moveString) {
+
+
+  }
 
   BattleMove(int moveID) {
     PokeApi pokeApi = new PokeApiClient();
@@ -58,18 +64,36 @@ public class BattleMove extends MoveBase {
       System.out.println("Was a crit");
       crit = 2;
     }
-    int damage =
-            (int)
-                    Math.round(
-                            ((((((2 * user.getLEVEL() * crit) / 5.) + 2)
-                                    * this.getPower()
-                                    * (user.getATK() / (double) target.getDEF()))
-                                    / 50
-                                    + 2)
-                                    * modifier));
-    System.out.println(
-            user.getNAME() + " did " + damage + " to " + target.getNAME() + " with " + moveName);
-    target.takeDamage(damage);
+    if (IntStream.of(types.physical).anyMatch(x -> x == type)) {
+      int damage =
+              (int)
+                      Math.round(
+                              ((((((2 * user.getLEVEL() * crit) / 5.) + 2)
+                                      * this.getPower()
+                                      * (user.getATK() / (double) target.getDEF()))
+                                      / 50
+                                      + 2)
+                                      * modifier));
+      System.out.println(
+              user.getNAME() + " did " + damage + " to " + target.getNAME() + " with " + moveName);
+      target.takeDamage(damage);
+    }
+    if (IntStream.of(types.special).anyMatch(x -> x == type)) {
+      int damage =
+              (int)
+                      Math.round(
+                              ((((((2 * user.getLEVEL() * crit) / 5.) + 2)
+                                      * this.getPower()
+                                      * (user.getSPC() / (double) target.getSPC()))
+                                      / 50
+                                      + 2)
+                                      * modifier));
+      System.out.println(
+              user.getNAME() + " did " + damage + " to " + target.getNAME() + " with " + moveName);
+      target.takeDamage(damage);
+    }
+
+
   }
 
   public double getModifier(Monster user, Monster defender) {
@@ -143,5 +167,19 @@ public class BattleMove extends MoveBase {
   @Override
   public int getPriority() {
     return priority;
+  }
+
+  public String printMove() {
+    return ""
+            + this.power
+            + ","
+            + this.accuracy
+            + ","
+            + this.type
+            + ","
+            + this.PP
+            + ","
+            + this.moveName
+            + "\n";
   }
 }

@@ -4,32 +4,43 @@ import me.sargunvohra.lib.pokekotlin.model.Move;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class StatusBoostMove extends MoveBase {
-  Map<String, Integer> statsMap = new HashMap<>();
+  Map<String, Integer> statsMap;
   boolean targetOpp;
 
   StatusBoostMove(int moveID) {
     PokeApi pokeApi = new PokeApiClient();
     Move move = pokeApi.getMove(moveID);
+    statsMap = new HashMap<>();
     for (int i = 0; i < move.getStatChanges().size(); i++) {
       statsMap.put(
-              move.getStatChanges().get(0).getStat().getName(),
-              move.getStatChanges().get(0).getChange());
+              move.getStatChanges().get(i).getStat().getName(),
+              move.getStatChanges().get(i).getChange());
     }
     targetOpp = !move.getTarget().getName().equals("user");
+  }
+
+  StatusBoostMove(String str) {
+    statsMap = new HashMap<>();
+    Scanner in = new Scanner(str);
+    targetOpp = in.next().equals("true");
+    while (in.hasNext()) {
+      Scanner out = new Scanner(in.next());
+      out.useDelimiter(",");
+      statsMap.put(out.next(), out.nextInt());
+    }
+
   }
 
   @Override
   void execute(Monster user, Monster defender) {
     Monster target;
-
     if (targetOpp) {
       target = defender;
-
     } else {
       target = user;
-
     }
     if (statsMap.containsKey("speed")) {
       target.setSpdMod(target.getSpdMod() + statsMap.get("speed"));
@@ -77,8 +88,19 @@ public class StatusBoostMove extends MoveBase {
     }
   }
 
+  public String printString() {
+    StringBuilder toPrint = new StringBuilder("" + targetOpp + "\n");
+    for (String str : statsMap.keySet()) {
+      toPrint.append(str).append(",").append(statsMap.get(str)).append("\n");
+    }
+    return toPrint.toString();
+  }
+
   @Override
   public String toString() {
-    return "StatusBoostMove{" + "statsMap=" + statsMap + ", targetOpp=" + targetOpp + '}';
+    return "StatusBoostMove{" +
+            "statsMap=" + statsMap +
+            ", targetOpp=" + targetOpp +
+            '}';
   }
 }

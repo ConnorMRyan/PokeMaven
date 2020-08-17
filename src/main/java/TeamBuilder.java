@@ -29,18 +29,7 @@ public class TeamBuilder {
       for (int j = 0; j < numMoves; j++) {
         if (useAPIMove()) {
           BattleMove pokeMove = pokeMovesAPI();
-          fileWriter.write(
-                  ""
-                          + pokeMove.power
-                          + ","
-                          + pokeMove.accuracy
-                          + ","
-                          + pokeMove.type
-                          + ","
-                          + pokeMove.PP
-                          + ","
-                          + pokeMove.moveName
-                          + "\n");
+          fileWriter.write(pokeMove.printMove());
         } else {
           String move = pokemonMovesMan();
           fileWriter.write(move);

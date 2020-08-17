@@ -15,6 +15,8 @@ public class types {
     public static final int GHOST = 13;
     public static final int DRAGON = 14;
     public static final int NO_TYPE = 15; // For pokemon without a secondary type.
+    public static final int[] special = {FIRE, WATER, ELECTRIC, GRASS, ICE, PSYCHIC, DRAGON};
+    public static final int[] physical = {NORMAL, FIGHTING, POISON, GROUND, FLYING, BUG, ROCK, GHOST, NO_TYPE};
 
     // If a type is normally effective, 1, super effective is 2, not very effective is 0.5, and immune
     // is 0
