@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+/**
+ * A class that represents the team, stores the name and a list with each of the trainer's monsters.
+ * The active monster is whatever monster is currently 'out'.
+ */
+
 public class Team {
   String trainerName;
   ArrayList<Monster> teamList = new ArrayList<>();
@@ -42,7 +47,6 @@ public class Team {
     for (Monster monster : teamList) {
       if (!monster.fainted) {
         activeMonster = monster;
-        break;
       }
     }
   }

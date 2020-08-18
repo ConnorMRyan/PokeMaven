@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.util.Scanner;
 
 public class Battle {
@@ -46,9 +45,12 @@ public class Battle {
     teamOne.setActiveMonster();
     teamTwo.setActiveMonster();
     while (checkLost()) {
+      if (activeTeam.activeMonster.fainted) {
+        activeTeam.setActiveMonster();
+      }
       BattleAction ba = battleTurn();
-      Random rand = new Random();
-      MoveBase moveToUse = teamTwo.activeMonster.getMove(rand.nextInt(activeTeam.activeMonster.getMovesList().size() - 1));
+
+      MoveBase moveToUse = (MoveBase) compTurn();
       if (ba.getPriority() >= moveToUse.getPriority()) {
         ba.execute(activeTeam.activeMonster, inactiveTeam.activeMonster);
         if (!inactiveTeam.activeMonster.fainted) {
@@ -58,6 +60,16 @@ public class Battle {
         }
         displayHP(teamOne.activeMonster);
         displayHP(teamTwo.activeMonster);
+      } else {
+        moveToUse.execute(inactiveTeam.activeMonster, activeTeam.activeMonster);
+        if (!activeTeam.activeMonster.fainted) {
+          ba.execute(activeTeam.activeMonster, inactiveTeam.activeMonster);
+        } else {
+          activeTeam.setActiveMonster();
+        }
+        displayHP(teamOne.activeMonster);
+        displayHP(teamTwo.activeMonster);
+
       }
 
     }
@@ -76,7 +88,16 @@ public class Battle {
     return (teamOne.canContinue() && teamTwo.canContinue());
   }
 
-  void playerTurn() {
+  BattleAction compTurn() {
+    BattleAction tenative = inactiveTeam.activeMonster.getMove(0);
+    int oldDmg = 0;
+    for (MoveBase move : inactiveTeam.activeMonster.getMovesList()) {
+      if (move.estimateDamage(inactiveTeam.activeMonster, activeTeam.activeMonster) > oldDmg) {
+        tenative = move;
+      }
+    }
+    return tenative;
+
   }
 
   SwitchMonster changePokemon(Team team) {
@@ -109,6 +130,7 @@ public class Battle {
   }
 
   void displayAttacks() {
+    System.out.println("----" + activeTeam.activeMonster.getNAME() + "----");
     System.out.println("------Moves-----");
     for (int i = 0; i < activeTeam.activeMonster.getMovesList().size(); i++) {
       System.out.println("" + (i + 1) + "- " + activeTeam.activeMonster.getMove(i) + " Has " + activeTeam.activeMonster.getMove(i).getPP() + " PP out of " + activeTeam.activeMonster.getMove(i).getMaxPP());

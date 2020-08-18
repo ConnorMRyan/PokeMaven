@@ -9,6 +9,10 @@ public class TeamBuilder {
   private Scanner tbScan;
   private DatabaseConnection db;
 
+  /**
+   * Creates a text file in the format required to make a team,
+   */
+
   TeamBuilder() {
     createScanner();
   }

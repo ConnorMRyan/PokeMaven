@@ -20,4 +20,6 @@ public abstract class MoveBase extends BattleAction {
     }
 
     abstract String printMove();
+
+    abstract int estimateDamage(Monster user, Monster defender);
 }

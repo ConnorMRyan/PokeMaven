@@ -19,18 +19,21 @@ public class Monster {
   private final String FAMILY_NAME;
   private final ArrayList<MoveBase> movesList = new ArrayList<>();
   public boolean fainted;
+/**
+ * A constructor for monsters with a nickname.
+ */
 
-  Monster(
-          int HP,
-          int ATK,
-          int DEF,
-          int SPC,
-          int SPD,
-          int TYPE_ONE,
-          int TYPE_TWO,
-          int LEVEL,
-          String NAME,
-          String FAMILY_NAME) {
+Monster(
+        int HP,
+        int ATK,
+        int DEF,
+        int SPC,
+        int SPD,
+        int TYPE_ONE,
+        int TYPE_TWO,
+        int LEVEL,
+        String NICK_NAME,
+        String FAMILY_NAME) {
     status = new Status();
     this.LEVEL = LEVEL;
     this.TOTAL_HP = convertBaseStat(HP) + 5 + LEVEL;
@@ -41,54 +44,92 @@ public class Monster {
     this.SPD = convertBaseStat(SPD);
     this.TYPE_ONE = TYPE_ONE;
     this.TYPE_TWO = TYPE_TWO;
-    this.NAME = NAME;
+    this.NAME = NICK_NAME;
     this.FAMILY_NAME = FAMILY_NAME;
-  }
+}
 
-  Monster(
-          int HP,
-          int ATK,
-          int DEF,
-          int SPC,
-          int SPD,
-          int TYPE_ONE,
-          int TYPE_TWO,
-          int LEVEL,
-          String FAMILY_NAME) {
-    status = new Status();
-    this.LEVEL = LEVEL;
-    this.TOTAL_HP = convertBaseStat(HP) + 5 + LEVEL;
-    this.currentHp = convertBaseStat(HP) + 5 + LEVEL;
-    this.ATK = convertBaseStat(ATK);
-    this.DEF = convertBaseStat(DEF);
-    this.SPC = convertBaseStat(SPC);
-    this.SPD = convertBaseStat(SPD);
-    this.TYPE_ONE = TYPE_ONE;
-    this.TYPE_TWO = TYPE_TWO;
-    this.NAME = FAMILY_NAME;
-    this.FAMILY_NAME = FAMILY_NAME;
-  }
+    /**
+     * This is a constructer for when monsters don't have a nickname, in retrospect I probably could have combined these together and
+     * taken care of the nickname during creation.
+     */
 
-  public String toString() {
-    return NAME + " is a level " + LEVEL + " " + FAMILY_NAME;
-  }
+    Monster(
+            int HP,
+            int ATK,
+            int DEF,
+            int SPC,
+            int SPD,
+            int TYPE_ONE,
+            int TYPE_TWO,
+            int LEVEL,
+            String FAMILY_NAME) {
+        status = new Status();
+        this.LEVEL = LEVEL;
+        this.TOTAL_HP = convertBaseStat(HP) + 5 + LEVEL;
+        this.currentHp = convertBaseStat(HP) + 5 + LEVEL;
+        this.ATK = convertBaseStat(ATK);
+        this.DEF = convertBaseStat(DEF);
+        this.SPC = convertBaseStat(SPC);
+        this.SPD = convertBaseStat(SPD);
+        this.TYPE_ONE = TYPE_ONE;
+        this.TYPE_TWO = TYPE_TWO;
+        this.NAME = FAMILY_NAME;
+        this.FAMILY_NAME = FAMILY_NAME;
+    }
 
+    public String toString() {
+        return NAME + " is a level " + LEVEL + " " + FAMILY_NAME;
+    }
 
-  public int getType1() {
-    return TYPE_ONE;
-  }
+    /**
+     * Returns a modified stat based on the stat and a  modifier from -6 to +6,
+     *
+     * @param statBase
+     * @param statMod
+     * @return
+     */
+    public int getStat(int statBase, int statMod) {
+        switch (statMod) {
+            case -6:
+                return (statBase * 25) / 100;
+            case -5:
+                return (statBase * 28) / 100;
+            case -4:
+                return (statBase * 33) / 100;
+            case -3:
+                return (statBase * 40) / 100;
+            case -2:
+                return (statBase * 50) / 100;
+            case -1:
+                return (statBase * 66) / 100;
 
-  public int getType2() {
-    return TYPE_TWO;
-  }
-
+            case 1:
+                return (statBase * 150) / 100;
+            case 2:
+                return (statBase * 200) / 100;
+            case 3:
+                return (statBase * 250) / 100;
+            case 4:
+                return (statBase * 300) / 100;
+            case 5:
+                return (statBase * 350) / 100;
+            case 6:
+                return (statBase * 400) / 100;
+            default:
+                return statBase;
+        }
+    }
 
   public void addMove(MoveBase pokeMove) {
     movesList.add(pokeMove);
   }
 
-  public MoveBase getMove(int ID) {
-    return movesList.get(ID);
+    public MoveBase getMove(int ID) {
+        try {
+            return movesList.get(ID);
+        } catch (Exception e){
+            return movesList.get(0);
+        }
   }
 
   public void printMoves() {
@@ -97,34 +138,12 @@ public class Monster {
     }
   }
 
-  private boolean isACrit(boolean highCritMove, boolean modifier) {
-    int tVal = SPD / 2;
-    if (modifier) {
-      tVal = tVal / 2;
-    }
-    if (highCritMove) {
-      tVal = tVal * 4;
-    }
-    Random random = new Random();
-    int target = random.nextInt(256);
-    int critNum = Math.min(255, tVal);
-    return target > critNum;
-  }
-
   void takeDamage(int damage) {
     currentHp = currentHp - damage;
     if (currentHp <= 0) {
       currentHp = 0;
       fainted = true;
     }
-  }
-
-  public int getCurrentHp() {
-    return currentHp;
-  }
-
-  public String getNAME() {
-    return NAME;
   }
 
   @Override
@@ -137,23 +156,51 @@ public class Monster {
               && (((Monster) obj).TOTAL_HP == this.TOTAL_HP)
               && (((Monster) obj).FAMILY_NAME.equals(this.FAMILY_NAME));
     } else {
-      return false;
+        return false;
     }
   }
 
-  public int getATK() {
-    return getStat(ATK, atkMod);
-  }
+    /**
+     * Returns the correct base stats, currently assumes maximum IV and EV values, but may allow for
+     * changed in the future.
+     *
+     * @param stat
+     * @return
+     */
+    private int convertBaseStat(int stat) {
+        return (((((stat + 15) * 2) + 63) * this.LEVEL) / 100) + 5;
+    }
 
-  public int getAtkMod() {
-    return atkMod;
-  }
+    /**
+     * Various getters and setters
+     */
 
-  public void setAtkMod(int atkMod) {
-    this.atkMod = atkMod;
-  }
 
-  public int getDEF() {
+    public int getType1() {
+        return TYPE_ONE;
+    }
+
+    public int getType2() {
+        return TYPE_TWO;
+    }
+
+    public int getCurrentHp() {
+        return currentHp;
+    }
+
+    public String getNAME() {
+        return NAME;
+    }
+
+    public ArrayList<MoveBase> getMovesList() {
+        return movesList;
+    }
+
+    public void setAtkMod(int atkMod) {
+        this.atkMod = atkMod;
+    }
+
+    public int getDEF() {
     return getStat(DEF, defMod);
   }
 
@@ -189,55 +236,24 @@ public class Monster {
     this.spdMod = spdMod;
   }
 
-  public int getLEVEL() {
-    return LEVEL;
-  }
-
-  public int getTOTAL_HP() {
-    return TOTAL_HP;
-  }
-
-  public Status getStatus() {
-    return status;
-  }
-
-  public ArrayList<MoveBase> getMovesList() {
-    return movesList;
-  }
-
-  private int convertBaseStat(int stat) {
-    return (((((stat + 15) * 2) + 63) * this.LEVEL) / 100) + 5;
-  }
-
-  public int getStat(int statBase, int statMod) {
-    switch (statMod) {
-      case -6:
-        return (statBase * 25) / 100;
-      case -5:
-        return (statBase * 28) / 100;
-      case -4:
-        return (statBase * 33) / 100;
-      case -3:
-        return (statBase * 40) / 100;
-      case -2:
-        return (statBase * 50) / 100;
-      case -1:
-        return (statBase * 66) / 100;
-
-      case 1:
-        return (statBase * 150) / 100;
-      case 2:
-        return (statBase * 200) / 100;
-      case 3:
-        return (statBase * 250) / 100;
-      case 4:
-        return (statBase * 300) / 100;
-      case 5:
-        return (statBase * 350) / 100;
-      case 6:
-        return (statBase * 400) / 100;
-      default:
-        return statBase;
+    public int getLEVEL() {
+        return LEVEL;
     }
+
+    public int getTOTAL_HP() {
+        return TOTAL_HP;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public int getATK() {
+        return getStat(ATK, atkMod);
   }
+
+  public int getAtkMod() {
+    return atkMod;
+  }
+
 }

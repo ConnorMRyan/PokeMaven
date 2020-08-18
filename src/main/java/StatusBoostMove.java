@@ -10,35 +10,43 @@ public class StatusBoostMove extends MoveBase {
   Map<String, Integer> statsMap;
   boolean targetOpp;
   String name;
+  int priority = 0;
+  int PP = 0;
+  int MaxPP;
 
-  StatusBoostMove(int moveID) {
-    PokeApi pokeApi = new PokeApiClient();
-    Move move = pokeApi.getMove(moveID);
+  StatusBoostMove(final int moveID) {
+    final PokeApi pokeApi = new PokeApiClient();
+    final Move move = pokeApi.getMove(moveID);
+    name = move.getName();
+    PP = move.getPp();
+    MaxPP = PP;
     statsMap = new HashMap<>();
     for (int i = 0; i < move.getStatChanges().size(); i++) {
-      statsMap.put(
-              move.getStatChanges().get(i).getStat().getName(),
-              move.getStatChanges().get(i).getChange());
+      statsMap.put(move.getStatChanges().get(i).getStat().getName(), move.getStatChanges().get(i).getChange());
     }
     targetOpp = !move.getTarget().getName().equals("user");
   }
 
-  StatusBoostMove(String str) {
+  StatusBoostMove(final String str) {
     statsMap = new HashMap<>();
-    Scanner in = new Scanner(str);
+    final Scanner in = new Scanner(str);
     in.useDelimiter(",");
     this.name = in.next();
     targetOpp = in.next().equals("true");
+    PP = in.nextInt();
+    in.useDelimiter("`");
     while (in.hasNext()) {
-      Scanner out = new Scanner(in.next());
-      out.useDelimiter("`");
+      final Scanner out = new Scanner(in.next());
+      out.useDelimiter(",");
       statsMap.put(out.next(), out.nextInt());
     }
+    MaxPP = PP;
 
   }
 
   @Override
-  void execute(Monster user, Monster defender) {
+  void execute(final Monster user, final Monster defender) {
+    System.out.println(user.getNAME() + " used " + name);
     Monster target;
     if (targetOpp) {
       target = defender;
@@ -89,13 +97,15 @@ public class StatusBoostMove extends MoveBase {
         target.setSpcMod(-6);
       }
     }
+    usePP();
   }
 
   public String printMove() {
-    StringBuilder toPrint = new StringBuilder(name + ", 2 " + targetOpp + ",");
-    for (String str : statsMap.keySet()) {
+    final StringBuilder toPrint = new StringBuilder("2\n" + name + "," + targetOpp + "," + PP + ",");
+    for (final String str : statsMap.keySet()) {
       toPrint.append(str).append(",").append(statsMap.get(str)).append("`");
     }
+    toPrint.append("\n");
     return toPrint.toString();
   }
 
@@ -103,4 +113,30 @@ public class StatusBoostMove extends MoveBase {
   public String toString() {
     return this.name;
   }
+
+  @Override
+  int getPriority() {
+    return priority;
+  }
+
+  @Override
+  int estimateDamage(Monster user, Monster defender) {
+    return 0;
+  }
+
+  @Override
+  public int getPP() {
+    return PP;
+  }
+
+  @Override
+  public int getMaxPP() {
+    return MaxPP;
+  }
+
+  @Override
+  void usePP() {
+    PP = PP - 1;
+  }
 }
+
