@@ -1,24 +1,21 @@
+import me.sargunvohra.lib.pokekotlin.client.PokeApi;
+import me.sargunvohra.lib.pokekotlin.client.PokeApiClient;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class TeamBuilder {
-  private Scanner in;
+  private Scanner tbScan;
   private DatabaseConnection db;
 
   TeamBuilder() {
-
-  }
-
-  public static void main(String[] args) throws IOException {
-    TeamBuilder teamBuilder = new TeamBuilder();
-    teamBuilder.writeTeam();
+    createScanner();
   }
 
   public void writeTeam() throws IOException {
-    createScanner();
     String nick = getUsername();
-    FileWriter fileWriter = new FileWriter(nick + ".txt");
+    FileWriter fileWriter = new FileWriter("Teams/" + nick + ".txt");
     fileWriter.write(nick + "\n");
     int numPoke = numPokemon();
     fileWriter.write(numPoke + "\n");
@@ -28,7 +25,7 @@ public class TeamBuilder {
       fileWriter.write(getPokeString());
       for (int j = 0; j < numMoves; j++) {
         if (useAPIMove()) {
-          BattleMove pokeMove = pokeMovesAPI();
+          MoveBase pokeMove = pokeMovesAPI();
           fileWriter.write(pokeMove.printMove());
         } else {
           String move = pokemonMovesMan();
@@ -48,12 +45,12 @@ public class TeamBuilder {
 
   String getUsername() {
     System.out.println("What would you like as a username?");
-    return in.next();
+    return tbScan.nextLine();
   }
 
   int numPokemon() {
     System.out.println("How many pokemon would you like to create? [6 Max]");
-    int numPokemon = in.nextInt();
+    int numPokemon = tbScan.nextInt();
     if (numPokemon > 0 && numPokemon <= 6) {
       return numPokemon;
     } else {
@@ -65,7 +62,7 @@ public class TeamBuilder {
   String getPokeString() {
     // todo, validate user input;
     System.out.println("What is the species of pokemon you want ");
-    String familyName = in.next();
+    String familyName = tbScan.next();
     if (validPokemon(familyName)) {
       int level = getLevel();
 
@@ -83,7 +80,7 @@ public class TeamBuilder {
 
   boolean useAPIMove() {
     System.out.println("Would you like to use the ID to find the move? (y/N)");
-    char val = in.next().toUpperCase().charAt(0);
+    char val = tbScan.next().toUpperCase().charAt(0);
     if (val == 'Y') {
       return true;
     }
@@ -97,7 +94,7 @@ public class TeamBuilder {
 
   int getLevel() {
     System.out.println("What level is the pokemon? [1-100]");
-    int level = in.nextInt();
+    int level = tbScan.nextInt();
     if (level < 0 || level > 100) {
       System.out.println("Sorry, that's not a valid level.");
       return getLevel();
@@ -107,44 +104,56 @@ public class TeamBuilder {
 
   boolean hasNick() {
     System.out.println("Does the pokemon have a nickname? [y/N]");
-    String hasNick = in.next();
+    String hasNick = tbScan.next();
     return hasNick.toLowerCase().charAt(0) == 'y';
   }
 
   // todo consider adding nickname scanning for 'foul' language.
   String getNick() {
     System.out.println("What is the pokemon's nickname?");
-    return in.next();
+    return tbScan.next();
   }
 
   void createScanner() {
-    this.in = new Scanner(System.in);
+    this.tbScan = new Scanner(System.in);
   }
 
-  BattleMove pokeMovesAPI() {
+  MoveBase pokeMovesAPI() {
     System.out.println("What is the ID of your move?");
-    return new BattleMove(in.nextInt());
+    int id = tbScan.nextInt();
+    PokeApi pokeApi = new PokeApiClient();
+    String cat = pokeApi.getMove(id).getMeta().getCategory().getName();
+    int type = findMoveType(id, cat);
+    switch (type) {
+      case (0):
+        return new BattleMove(id);
+      case (2):
+        return new StatusBoostMove(id);
+      default:
+        return null;
+    }
+
   }
 
   String pokemonMovesMan() {
     // This is an example move for rockthrow "50,90,12,15,RockThrow"
     System.out.println("What is the name of the move?");
-    String movename = in.next();
+    String movename = tbScan.next();
     System.out.println("What is the power of the move?");
-    int pow = in.nextInt();
+    int pow = tbScan.nextInt();
     System.out.println("What is the accuracy of the move?");
-    int accuracy = in.nextInt();
+    int accuracy = tbScan.nextInt();
     System.out.println("What is the type of the move?");
-    int type = types.getType(in.next());
+    int type = types.getType(tbScan.next());
     System.out.println("How many PP does the move have?");
-    int PP = in.nextInt();
+    int PP = tbScan.nextInt();
 
     return "" + pow + "," + accuracy + "," + type + "," + PP + "," + movename + "\n";
   }
 
   int numMoves() {
     System.out.println("How many moves does this pokemon know?(1-4)");
-    int numMoves = in.nextInt();
+    int numMoves = tbScan.nextInt();
     if (numMoves < 1 || numMoves > 4) {
       System.out.println("Sorry you aren't allowed to have that many moves.");
       return numMoves();
@@ -153,6 +162,42 @@ public class TeamBuilder {
   }
 
   void closeScanner() {
-    in.close();
+    tbScan.close();
+  }
+
+  int findMoveType(int id, String cat) {
+    System.out.println(cat);
+    switch (cat) {
+      case ("damage"):
+        return 0;
+      case ("ailment"):
+        return 1;
+      case ("net-good-stats"):
+        return 2;
+      case ("heal"):
+        return 3;
+      case ("damage+ailment"):
+        return 0;
+      case ("swagger"):
+        return 5;
+      case ("damage+lower"):
+        return 6;
+      case ("damage+raise"):
+        return 7;
+      case ("damage+heal"):
+        return 8;
+      case ("ohko"):
+        return 9;
+      case ("whole-field-effect"):
+        return 10;
+      case ("field-effect"):
+        return 11;
+      case ("force-switch"):
+        return 12;
+      case ("unique"):
+        return 13;
+      default:
+        return -1;
+    }
   }
 }

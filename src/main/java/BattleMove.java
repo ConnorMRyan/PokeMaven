@@ -4,6 +4,7 @@ import me.sargunvohra.lib.pokekotlin.model.Move;
 import me.sargunvohra.lib.pokekotlin.model.NamedApiResource;
 
 import java.util.Random;
+import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class BattleMove extends MoveBase {
@@ -17,6 +18,14 @@ public class BattleMove extends MoveBase {
 
 
   BattleMove(String moveString) {
+    Scanner in = new Scanner(moveString);
+    in.useDelimiter(",");
+    this.name = in.next();
+    this.power = in.nextInt();
+    this.accuracy = in.nextInt();
+    this.type = in.nextInt();
+    this.PP = in.nextInt();
+    this.maxPP = this.PP;
 
 
   }
@@ -170,7 +179,7 @@ public class BattleMove extends MoveBase {
   }
 
   public String printMove() {
-    return ""
+    return "0 \n"
             + this.power
             + ","
             + this.accuracy

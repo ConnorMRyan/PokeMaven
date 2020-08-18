@@ -1,4 +1,4 @@
-public class MoveBase extends BattleAction {
+public abstract class MoveBase extends BattleAction {
     int type;
     String name;
     int PP;
@@ -18,4 +18,6 @@ public class MoveBase extends BattleAction {
     int getMaxPP() {
         return this.maxPP;
     }
+
+    abstract String printMove();
 }

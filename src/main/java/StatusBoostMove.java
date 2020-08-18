@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class StatusBoostMove extends MoveBase {
   Map<String, Integer> statsMap;
   boolean targetOpp;
+  String name;
 
   StatusBoostMove(int moveID) {
     PokeApi pokeApi = new PokeApiClient();
@@ -25,10 +26,12 @@ public class StatusBoostMove extends MoveBase {
   StatusBoostMove(String str) {
     statsMap = new HashMap<>();
     Scanner in = new Scanner(str);
+    in.useDelimiter(",");
+    this.name = in.next();
     targetOpp = in.next().equals("true");
     while (in.hasNext()) {
       Scanner out = new Scanner(in.next());
-      out.useDelimiter(",");
+      out.useDelimiter("`");
       statsMap.put(out.next(), out.nextInt());
     }
 
@@ -88,19 +91,16 @@ public class StatusBoostMove extends MoveBase {
     }
   }
 
-  public String printString() {
-    StringBuilder toPrint = new StringBuilder("" + targetOpp + "\n");
+  public String printMove() {
+    StringBuilder toPrint = new StringBuilder(name + ", 2 " + targetOpp + ",");
     for (String str : statsMap.keySet()) {
-      toPrint.append(str).append(",").append(statsMap.get(str)).append("\n");
+      toPrint.append(str).append(",").append(statsMap.get(str)).append("`");
     }
     return toPrint.toString();
   }
 
   @Override
   public String toString() {
-    return "StatusBoostMove{" +
-            "statsMap=" + statsMap +
-            ", targetOpp=" + targetOpp +
-            '}';
+    return this.name;
   }
 }

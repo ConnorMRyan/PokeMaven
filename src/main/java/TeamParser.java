@@ -23,39 +23,31 @@ public class TeamParser {
             if (pokeScanner.hasNext()) {
                 String nick = pokeScanner.next();
                 Monster monster = db.makeAMonster(name, level, nick);
-                for (int j = 0; j < numMoves; j++) {
-                    String moveString = in.nextLine();
-                    Scanner moveScan = new Scanner(moveString);
-                    moveScan.useDelimiter(",");
-                    monster.addMove(
-                            new BattleMove(
-                                    moveScan.nextInt(),
-                                    moveScan.nextInt(),
-                                    moveScan.nextInt(),
-                                    moveScan.nextInt(),
-                                    moveScan.next()));
-                }
-                team.addMonster(monster);
+                getMove(in, team, numMoves, monster);
             } else {
                 Monster monster = db.makeAMonster(name, level);
-                for (int j = 0; j < numMoves; j++) {
-                    String moveString = in.next();
-                    Scanner moveScan = new Scanner(moveString);
-                    moveScan.useDelimiter(",");
-                    monster.addMove(
-                            new BattleMove(
-                                    moveScan.nextInt(),
-                                    moveScan.nextInt(),
-                                    moveScan.nextInt(),
-                                    moveScan.nextInt(),
-                                    moveScan.next()));
-                }
-                team.addMonster(monster);
+                getMove(in, team, numMoves, monster);
             }
             pokeScanner.close();
         }
         in.close();
         return team;
+    }
+
+    private static void getMove(Scanner in, Team team, int numMoves, Monster monster) {
+        for (int j = 0; j < numMoves; j++) {
+            int moveType = in.nextInt();
+            in.nextLine();
+            String moveString = in.nextLine();
+            if (moveType == 0) {
+                monster.addMove(new BattleMove(moveString));
+            }
+            if (moveType == 2) {
+                monster.addMove(new StatusBoostMove(moveString));
+            }
+        }
+
+        team.addMonster(monster);
     }
 
     static void saveTeam(Team team) {
