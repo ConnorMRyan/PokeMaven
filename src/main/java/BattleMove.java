@@ -251,6 +251,8 @@ public class BattleMove extends MoveBase {
 
   public String printMove() {
     return "0 \n"
+            + this.moveName
+            + ","
             + this.power
             + ","
             + this.accuracy
@@ -259,7 +261,6 @@ public class BattleMove extends MoveBase {
             + ","
             + this.PP
             + ","
-            + this.moveName
             + "\n";
   }
 

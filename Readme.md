@@ -20,6 +20,20 @@ A command line to allow multiple players to recreate generation 1 pokemon battle
 - [ ] Add a battle tower mode. 
 - [ ] Add additional types of moves. 
 
-
+##Tech stack
+   - [x] Java 8
+        - [x] File I/O
+        
+        >Used to save and retrieve teams from files. 
+        
+        - [x] Collections API
+         
+        >Used to manage lists. 
+        
+        - [x] Concurrency
+    Maven 3
+    JUnit 5
+    Git
+    PostgreSQL 9+
 
      
