@@ -16,7 +16,7 @@ public class Battle {
     this.inactiveTeam = teamTwo;
     teamOne.setActiveMonster();
     teamTwo.setActiveMonster();
-    while (!checkLost()) {
+    while (checkLost()) {
       BattleAction playerOne = battleTurn();
       switchActive();
       BattleAction playerTwo = battleTurn();
