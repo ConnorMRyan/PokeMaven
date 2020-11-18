@@ -1,3 +1,5 @@
+package Utils;
+
 public class types {
     public static final int NORMAL = 0;
     public static final int FIRE = 1;
@@ -39,7 +41,7 @@ public class types {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} // No type, shouldn't be needed...
     };
 
-    static int getType(String type) {
+    public static int getType(String type) {
         switch (type.toUpperCase()) {
             case ("NORMAL"):
                 return 0;
@@ -77,7 +79,7 @@ public class types {
     }
 
 
-    static String typeName(int id) {
+    public static String typeName(int id) {
         switch (id) {
             case (0):
                 return "NORMAL";

@@ -1,3 +1,11 @@
+package TeamStuff;
+
+import ActionStuff.BattleMove;
+import ActionStuff.StatusBoostMove;
+import BattleStuff.Team;
+import MonsterStuff.Monster;
+import Utils.DatabaseConnection;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -5,7 +13,7 @@ import java.util.Scanner;
 // Takes in and creates a new team from a File
 
 public class TeamParser {
-    static Team makeTeam(File file) throws FileNotFoundException {
+    public static Team makeTeam(File file) throws FileNotFoundException {
         Scanner in = new Scanner(file);
         DatabaseConnection db = new DatabaseConnection();
         String teamName = in.nextLine();

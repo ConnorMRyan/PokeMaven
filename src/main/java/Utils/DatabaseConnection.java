@@ -1,3 +1,7 @@
+package Utils;
+
+import MonsterStuff.Monster;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -6,7 +10,7 @@ import java.sql.Statement;
 public class DatabaseConnection {
     Connection db;
 
-    DatabaseConnection() {
+    public DatabaseConnection() {
         try {
             this.db =
                     DriverManager.getConnection(

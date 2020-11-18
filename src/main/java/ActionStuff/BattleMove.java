@@ -1,3 +1,7 @@
+package ActionStuff;
+
+import MonsterStuff.Monster;
+import Utils.types;
 import me.sargunvohra.lib.pokekotlin.client.PokeApi;
 import me.sargunvohra.lib.pokekotlin.client.PokeApiClient;
 import me.sargunvohra.lib.pokekotlin.model.Move;
@@ -14,21 +18,18 @@ import java.util.stream.IntStream;
 public class BattleMove extends MoveBase {
   int power;
   int accuracy;
-  String moveName;
-  int type;
-  int PP;
-  int maxPP;
-  int priority = 1;
+
 
   /**
    * Constructs a move based on a moveString, which the class can write with the print move method.
+   *
    * @param moveString
    */
 
-  BattleMove(String moveString) {
+  public BattleMove(String moveString) {
     Scanner in = new Scanner(moveString);
     in.useDelimiter(",");
-    this.moveName = in.next();
+    name = in.next();
     this.power = in.nextInt();
     this.accuracy = in.nextInt();
     this.type = in.nextInt();
@@ -66,13 +67,13 @@ public class BattleMove extends MoveBase {
       System.err.println("The moves PP is bugged. It has been set to 15");
       this.PP = 15;
     }
-    this.moveName = move.getName();
+    name = move.getName();
   }
 
   BattleMove(int power, int accuracy, int type, int PP, String moveName) {
     this.power = power;
     this.accuracy = accuracy;
-    this.moveName = moveName;
+    name = moveName;
     this.type = type;
     this.PP = PP;
     this.maxPP = PP;
@@ -87,7 +88,7 @@ public class BattleMove extends MoveBase {
    * @param target
    */
   @Override
-  void execute(Monster user, Monster target) {
+  public void execute(Monster user, Monster target) {
     if (isAHit()) {
       double modifier = getModifier(user, target);
       int crit = 1;
@@ -112,7 +113,7 @@ public class BattleMove extends MoveBase {
                         + " to "
                         + target.getNAME()
                         + " with "
-                        + moveName
+                        + name
                         + " it was "
                         + superEffective(type, target));
         if (isCrit) {
@@ -138,7 +139,7 @@ public class BattleMove extends MoveBase {
                         + " to "
                         + target.getNAME()
                         + " with "
-                        + moveName
+                        + name
                         + " it was "
                         + superEffective(type, target));
         if (isCrit) {
@@ -148,13 +149,13 @@ public class BattleMove extends MoveBase {
       }
       System.out.println();
     } else {
-      System.out.println("Sorry, " + moveName + " missed.");
+      System.out.println("Sorry, " + name + " missed.");
     }
     usePP();
 
   }
 
-  int estimateDamage(Monster user, Monster target) {
+  public int estimateDamage(Monster user, Monster target) {
     return (int) Math.round(((((((2 * user.getLEVEL()) / 5.) + 2)
             * this.getPower()
             * (user.getSPC() / target.getSPC())) / 50 + 2)
@@ -199,7 +200,7 @@ public class BattleMove extends MoveBase {
 
   @Override
   public String toString() {
-    return moveName;
+    return name;
   }
 
   public String fancyString() {
@@ -209,7 +210,7 @@ public class BattleMove extends MoveBase {
             + ", accuracy="
             + accuracy
             + ", moveName='"
-            + moveName
+            + name
             + '\''
             + ", type="
             + types.typeName(type)
@@ -241,7 +242,7 @@ public class BattleMove extends MoveBase {
   }
 
   public String getMoveName() {
-    return moveName;
+    return name;
   }
 
   @Override
@@ -251,7 +252,7 @@ public class BattleMove extends MoveBase {
 
   public String printMove() {
     return "0 \n"
-            + this.moveName
+            + this.name
             + ","
             + this.power
             + ","

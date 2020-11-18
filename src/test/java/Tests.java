@@ -1,7 +1,10 @@
+import MonsterStuff.Monster;
+import TeamStuff.TeamBuilder;
+import TeamStuff.TeamParser;
+import Utils.DatabaseConnection;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
-import java.util.Scanner;
+import java.io.File;
 
 public class Tests {
     DatabaseConnection db = new DatabaseConnection();
@@ -13,7 +16,7 @@ public class Tests {
 
     @Test
     void moveTest() {
-        //int damage = testmander.basicAttack(35, types.NORMAL, testle);
+        // int damage = testmander.basicAttack(35, Utils.types.NORMAL, testle);
         assert (true);
     }
 
@@ -43,9 +46,16 @@ public class Tests {
         TeamBuilder teamBuilder = new TeamBuilder();
         teamBuilder.createScanner();
         teamBuilder.getNick();
-
-
     }
 
+    @Test
+    void testTeamParser() {
+        try {
+            TeamParser.makeTeam(new File("Teams/BrockTeam"));
+            assert (true);
+        } catch (Exception e) {
+            assert (false);
+        }
+    }
 }
 

@@ -1,3 +1,10 @@
+package BattleStuff;
+
+import ActionStuff.BattleAction;
+import ActionStuff.MoveBase;
+import ActionStuff.SwitchMonster;
+import MonsterStuff.Monster;
+
 import java.util.Scanner;
 
 public class Battle {
@@ -9,7 +16,7 @@ public class Battle {
   int activeID = 1;
   Team inactiveTeam;
 
-  Battle(Team teamOne, Team teamTwo) {
+  public Battle(Team teamOne, Team teamTwo) {
     this.teamOne = teamOne;
     this.activeTeam = teamOne;
     this.teamTwo = teamTwo;
@@ -21,6 +28,8 @@ public class Battle {
       switchActive();
       BattleAction playerTwo = battleTurn();
       switchActive();
+      displayHP(activeTeam.activeMonster);
+      displayHP(inactiveTeam.activeMonster);
       if (playerOne.getPriority() >= playerTwo.getPriority()) {
         playerOne.execute(activeTeam.activeMonster, inactiveTeam.activeMonster);
         switchActive();
@@ -37,7 +46,7 @@ public class Battle {
     }
   }
 
-  Battle(Team teamOne, Team teamTwo, Boolean multiplayer) {
+  public Battle(Team teamOne, Team teamTwo, Boolean multiplayer) {
     this.teamOne = teamOne;
     this.activeTeam = teamOne;
     this.teamTwo = teamTwo;
@@ -110,7 +119,7 @@ public class Battle {
   }
 
   void printBattleMenu() {
-    System.out.println("-_-_-Battle Menu-_-_-");
+    System.out.println("-_-_-PokeMav.BattleStuff.Battle Menu-_-_-");
     System.out.println("1: Attack");
     System.out.println("2: Use item");
     System.out.println("3: Switch Pokemon");
@@ -167,7 +176,18 @@ public class Battle {
     }
     if (choice == 1) {
       // todo implement items, if time allows.
-      System.out.println("Sorry, items not yet implemented");
+      System.out.println("tried new item healed 20");
+      return new BattleAction() {
+        @Override
+        public void execute(Monster user, Monster defender) {
+          user.heal(20);
+        }
+
+        @Override
+        public int getPriority() {
+          return 0;
+        }
+      };
     }
     if (choice == 2) {
       return changePokemon(activeTeam);

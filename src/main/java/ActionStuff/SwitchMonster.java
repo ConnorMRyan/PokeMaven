@@ -1,3 +1,8 @@
+package ActionStuff;
+
+import BattleStuff.Team;
+import MonsterStuff.Monster;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -6,7 +11,7 @@ public class SwitchMonster extends BattleAction {
     private final int id;
     private final int priority;
 
-    SwitchMonster(Team team, int id) {
+    public SwitchMonster(Team team, int id) {
         this.team = team;
         this.id = id;
         this.priority = 0;
@@ -14,7 +19,7 @@ public class SwitchMonster extends BattleAction {
     }
 
     @Override
-    void execute(Monster user, Monster defender) {
+    public void execute(Monster user, Monster defender) {
         ArrayList<Monster> tl = team.getTeamList();
         Collections.swap(tl, tl.indexOf(user), id);
     }
