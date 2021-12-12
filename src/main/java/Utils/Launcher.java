@@ -29,11 +29,9 @@ public class Launcher {
                     e.printStackTrace();
                 }
             }
-
             if (choice == 2) {
                 singlePlayer();
             }
-
             if (choice == 3) {
                 multiPlayer();
             }

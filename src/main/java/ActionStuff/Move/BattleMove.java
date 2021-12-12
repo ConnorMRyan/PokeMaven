@@ -1,4 +1,4 @@
-package ActionStuff;
+package ActionStuff.Move;
 
 import MonsterStuff.Monster;
 import Utils.types;
@@ -155,7 +155,7 @@ public class BattleMove extends MoveBase {
 
   }
 
-  public int estimateDamage(Monster user, Monster target) {
+  public int estimateEffect(Monster user, Monster target) {
     return (int) Math.round(((((((2 * user.getLEVEL()) / 5.) + 2)
             * this.getPower()
             * (user.getSPC() / target.getSPC())) / 50 + 2)

@@ -1,8 +1,9 @@
 package TeamStuff;
 
-import ActionStuff.BattleMove;
-import ActionStuff.MoveBase;
-import ActionStuff.StatusBoostMove;
+import ActionStuff.Move.BattleMove;
+import ActionStuff.Move.MoveBase;
+import ActionStuff.Move.StatusBoostMove;
+import BattleStuff.Team;
 import Utils.DatabaseConnection;
 import Utils.types;
 import me.sargunvohra.lib.pokekotlin.client.PokeApi;
@@ -26,13 +27,12 @@ public class TeamBuilder {
 
     public void writeTeam() throws IOException {
         String nick = getUsername();
-        FileWriter fileWriter = new FileWriter("Teams/" + nick + ".txt");
+        FileWriter fileWriter = new FileWriter("C:/Users/mynam/IdeaProjects/PokeMaven/Teams/" + nick + ".json");
+        Team team = new Team(nick);
         fileWriter.write(nick + "\n");
         int numPoke = numPokemon();
-        fileWriter.write(numPoke + "\n");
         for (int i = 0; i < numPoke; i++) {
             int numMoves = numMoves();
-            fileWriter.write(numMoves + "\n");
             fileWriter.write(getPokeString());
             for (int j = 0; j < numMoves; j++) {
                 if (useAPIMove()) {

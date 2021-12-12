@@ -1,7 +1,7 @@
 package BattleStuff;
 
 import ActionStuff.BattleAction;
-import ActionStuff.MoveBase;
+import ActionStuff.Move.MoveBase;
 import ActionStuff.SwitchMonster;
 import MonsterStuff.Monster;
 
@@ -101,7 +101,7 @@ public class Battle {
     BattleAction tenative = inactiveTeam.activeMonster.getMove(0);
     int oldDmg = 0;
     for (MoveBase move : inactiveTeam.activeMonster.getMovesList()) {
-      if (move.estimateDamage(inactiveTeam.activeMonster, activeTeam.activeMonster) > oldDmg) {
+      if (move.estimateEffect(inactiveTeam.activeMonster, activeTeam.activeMonster) > oldDmg) {
         tenative = move;
       }
     }

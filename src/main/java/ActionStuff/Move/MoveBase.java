@@ -1,5 +1,6 @@
-package ActionStuff;
+package ActionStuff.Move;
 
+import ActionStuff.BattleAction;
 import MonsterStuff.Monster;
 
 public abstract class MoveBase extends BattleAction {
@@ -8,8 +9,7 @@ public abstract class MoveBase extends BattleAction {
     int PP;
     int maxPP;
 
-    public void execute(Monster user, Monster defender) {
-    }
+    public void execute(Monster user, Monster defender) {}
 
     void usePP() {
         PP = PP - 1;
@@ -25,5 +25,5 @@ public abstract class MoveBase extends BattleAction {
 
     public abstract String printMove();
 
-    public abstract int estimateDamage(Monster user, Monster defender);
+    public abstract int estimateEffect(Monster user, Monster defender);
 }

@@ -1,18 +1,28 @@
-package ActionStuff;
+package ActionStuff.Move;
 
 import MonsterStuff.Monster;
 
-public class HealAction extends BattleAction {
+public class HealMove extends MoveBase {
     int priority = 0;
     int amountHealed = 0;
 
-    HealAction(int amountHealed) {
+    HealMove(int amountHealed) {
         this.amountHealed = amountHealed;
     }
 
     @Override
     public void execute(Monster user, Monster defender) {
         user.heal(amountHealed);
+    }
+
+    @Override
+    public String printMove() {
+        return null;
+    }
+
+    @Override
+    public int estimateEffect(Monster user, Monster defender) {
+        return -1 * amountHealed;
     }
 
     @Override

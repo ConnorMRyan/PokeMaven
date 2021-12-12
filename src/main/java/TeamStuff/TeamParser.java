@@ -1,7 +1,7 @@
 package TeamStuff;
 
-import ActionStuff.BattleMove;
-import ActionStuff.StatusBoostMove;
+import ActionStuff.Move.BattleMove;
+import ActionStuff.Move.StatusBoostMove;
 import BattleStuff.Team;
 import MonsterStuff.Monster;
 import Utils.DatabaseConnection;

@@ -1,5 +1,6 @@
-package ActionStuff;
+package ActionStuff.Item;
 
+import ActionStuff.BattleAction;
 import MonsterStuff.Monster;
 
 public class Item extends BattleAction {

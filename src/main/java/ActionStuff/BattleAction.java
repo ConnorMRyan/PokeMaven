@@ -7,7 +7,7 @@ import MonsterStuff.Monster;
  */
 
 public abstract class BattleAction {
-    int priority;
+    protected int priority;
 
     public abstract void execute(Monster user, Monster defender);
 

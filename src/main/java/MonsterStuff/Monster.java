@@ -1,6 +1,6 @@
 package MonsterStuff;
 
-import ActionStuff.MoveBase;
+import ActionStuff.Move.MoveBase;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,6 @@
-package ActionStuff;
+package ActionStuff.Move;
 
+import ActionStuff.Move.MoveBase;
 import MonsterStuff.Monster;
 import me.sargunvohra.lib.pokekotlin.client.PokeApi;
 import me.sargunvohra.lib.pokekotlin.client.PokeApiClient;
@@ -123,7 +124,7 @@ public class StatusBoostMove extends MoveBase {
 
 
     @Override
-    public int estimateDamage(Monster user, Monster defender) {
+    public int estimateEffect(Monster user, Monster defender){
         return 0;
     }
 
