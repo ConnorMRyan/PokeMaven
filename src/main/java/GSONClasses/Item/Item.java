@@ -1,4 +1,6 @@
-package GSONClasses;
+package GSONClasses.Item;
+
+import GSONClasses.Game.VersionDetails;
 
 public class Item {
     String name;

@@ -3,6 +3,8 @@ package ActionStuff.Move;
 import MonsterStuff.Monster;
 
 public class HealMove extends MoveBase {
+    private static final String CLASS_META_KEY = "HealMove";
+
     int priority = 0;
     int amountHealed = 0;
 

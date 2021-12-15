@@ -16,15 +16,19 @@ import java.util.stream.IntStream;
  */
 
 public class BattleMove extends MoveBase {
+  private static final String CLASS_META_KEY = "BattleMove";
+
   int power;
   int accuracy;
 
+  public BattleMove(){}
 
   /**
    * Constructs a move based on a moveString, which the class can write with the print move method.
    *
    * @param moveString
    */
+
 
   public BattleMove(String moveString) {
     Scanner in = new Scanner(moveString);
@@ -70,7 +74,7 @@ public class BattleMove extends MoveBase {
     name = move.getName();
   }
 
-  BattleMove(int power, int accuracy, int type, int PP, String moveName) {
+  public BattleMove(int power, int accuracy, int type, int PP, String moveName) {
     this.power = power;
     this.accuracy = accuracy;
     name = moveName;

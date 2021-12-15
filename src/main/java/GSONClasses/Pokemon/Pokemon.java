@@ -1,5 +1,8 @@
-package GSONClasses;
+package GSONClasses.Pokemon;
 
+import GSONClasses.Game.GameIndex;
+import GSONClasses.Item.HeldItem;
+import GSONClasses.Move.MetaMove;
 import com.google.gson.annotations.Expose;
 
 import java.util.List;
@@ -16,7 +19,7 @@ public class Pokemon {
     int id;
     boolean is_default;
     String location_area_ecouncters;
-    List<Move> moves;
+    List<MetaMove> metaMoves;
     @Expose
     String name;
     int order;
@@ -106,12 +109,12 @@ public class Pokemon {
         this.location_area_ecouncters = location_area_ecouncters;
     }
 
-    public List<Move> getMoves() {
-        return moves;
+    public List<MetaMove> getMoves() {
+        return metaMoves;
     }
 
-    public void setMoves(List<Move> moves) {
-        this.moves = moves;
+    public void setMoves(List<MetaMove> metaMoves) {
+        this.metaMoves = metaMoves;
     }
 
     public String getName() {

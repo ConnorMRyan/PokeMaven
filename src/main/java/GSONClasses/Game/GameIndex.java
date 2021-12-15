@@ -1,4 +1,4 @@
-package GSONClasses;
+package GSONClasses.Game;
 
 import jdk.nashorn.internal.runtime.Version;
 

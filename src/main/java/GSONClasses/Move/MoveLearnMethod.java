@@ -1,13 +1,10 @@
-package GSONClasses;
+package GSONClasses.Move;
 
-import com.google.gson.annotations.Expose;
-
-public class Stat {
-    @Expose
+public class MoveLearnMethod {
     String name;
     String url;
 
-    public Stat() {
+    public MoveLearnMethod() {
     }
 
     public String getName() {

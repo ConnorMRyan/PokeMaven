@@ -1,12 +1,10 @@
-package GSONClasses;
+package GSONClasses.Game;
 
-import com.google.gson.annotations.Expose;
-
-public class Species {
+public class VersionGroup {
     String name;
     String url;
 
-    public Species() {
+    public VersionGroup() {
     }
 
     public String getName() {
@@ -25,4 +23,3 @@ public class Species {
         this.url = url;
     }
 }
-

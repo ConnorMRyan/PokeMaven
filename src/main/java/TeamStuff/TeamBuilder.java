@@ -3,9 +3,14 @@ package TeamStuff;
 import ActionStuff.Move.BattleMove;
 import ActionStuff.Move.MoveBase;
 import ActionStuff.Move.StatusBoostMove;
-import BattleStuff.Team;
+import GSONClasses.Item.BattleStuff.Team;
+import GSONClasses.Deserializers.MoveBaseAdapter;
+import MonsterStuff.Monster;
+import MonsterStuff.MonsterBuilder;
 import Utils.DatabaseConnection;
 import Utils.types;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import me.sargunvohra.lib.pokekotlin.client.PokeApi;
 import me.sargunvohra.lib.pokekotlin.client.PokeApiClient;
 
@@ -29,21 +34,23 @@ public class TeamBuilder {
         String nick = getUsername();
         FileWriter fileWriter = new FileWriter("C:/Users/mynam/IdeaProjects/PokeMaven/Teams/" + nick + ".json");
         Team team = new Team(nick);
-        fileWriter.write(nick + "\n");
         int numPoke = numPokemon();
         for (int i = 0; i < numPoke; i++) {
             int numMoves = numMoves();
-            fileWriter.write(getPokeString());
+            Monster monster = getPokeString();
             for (int j = 0; j < numMoves; j++) {
                 if (useAPIMove()) {
                     MoveBase pokeMove = pokeMovesAPI();
-                    fileWriter.write(pokeMove.printMove());
+                    monster.addMove(pokeMove);
                 } else {
-                    String move = pokemonMovesMan();
-                    fileWriter.write(move);
+                    MoveBase move = pokemonMovesMan();
+                    monster.addMove(move);
                 }
             }
+            team.addMonster(monster);
         }
+        Gson gson = new GsonBuilder().registerTypeAdapter(MoveBase.class, new MoveBaseAdapter()).create();
+        fileWriter.write(gson.toJson(team,Team.class));
         fileWriter.flush();
         fileWriter.close();
         closeScanner();
@@ -70,24 +77,19 @@ public class TeamBuilder {
         }
     }
 
-    String getPokeString() {
+    Monster getPokeString() throws IOException {
         // todo, validate user input;
-        System.out.println("What is the species of pokemon you want ");
-        String familyName = tbScan.next();
-        if (validPokemon(familyName)) {
-            int level = getLevel();
+        System.out.println("What is the DexNO of pokemon you want ");
+        String dexNo = tbScan.next();
 
+            int level = getLevel();
             String nick;
             if (hasNick()) {
                 nick = getNick();
-            } else {
-                nick = familyName;
+                return new MonsterBuilder().makeMonsterWithAPI(dexNo,level,nick);
             }
-            return familyName + "," + level + "," + nick + "\n";
-        } else {
-            return getPokeString();
+            return new MonsterBuilder().makeMonsterWithAPI(dexNo,level);
         }
-    }
 
     boolean useAPIMove() {
         System.out.println("Would you like to use the ID to find the move? (y/N)");
@@ -146,7 +148,7 @@ public class TeamBuilder {
 
     }
 
-    String pokemonMovesMan() {
+    MoveBase pokemonMovesMan() {
         // This is an example move for rockthrow "50,90,12,15,RockThrow"
         System.out.println("What is the name of the move?");
         String movename = tbScan.next();
@@ -158,8 +160,8 @@ public class TeamBuilder {
         int type = types.getType(tbScan.next());
         System.out.println("How many PP does the move have?");
         int PP = tbScan.nextInt();
-
-        return "" + pow + "," + accuracy + "," + type + "," + PP + "," + movename + "\n";
+        BattleMove battleMove = new BattleMove(pow,accuracy,type,PP,movename);
+        return battleMove;
     }
 
     int numMoves() {

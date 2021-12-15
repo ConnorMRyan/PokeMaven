@@ -1,10 +1,12 @@
-package GSONClasses;
+package GSONClasses.Pokemon;
 
-public class Version {
+import com.google.gson.annotations.Expose;
+
+public class Species {
     String name;
     String url;
 
-    public Version() {
+    public Species() {
     }
 
     public String getName() {
@@ -23,3 +25,4 @@ public class Version {
         this.url = url;
     }
 }
+

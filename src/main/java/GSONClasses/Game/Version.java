@@ -1,10 +1,10 @@
-package GSONClasses;
+package GSONClasses.Game;
 
-public class MoveLearnMethod {
+public class Version {
     String name;
     String url;
 
-    public MoveLearnMethod() {
+    public Version() {
     }
 
     public String getName() {

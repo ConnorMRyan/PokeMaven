@@ -1,4 +1,4 @@
-package GSONClasses;
+package GSONClasses.Game;
 
 public class VersionDetails {
     int rarity;

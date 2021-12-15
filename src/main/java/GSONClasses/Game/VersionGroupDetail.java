@@ -1,5 +1,7 @@
-package GSONClasses;
+package GSONClasses.Game;
 
+
+import GSONClasses.Move.MoveLearnMethod;
 
 public class VersionGroupDetail {
     int level_learned_at;

@@ -1,10 +1,13 @@
-package GSONClasses;
+package GSONClasses.Pokemon;
 
-public class VersionGroup {
+import com.google.gson.annotations.Expose;
+
+public class Stat {
+    @Expose
     String name;
     String url;
 
-    public VersionGroup() {
+    public Stat() {
     }
 
     public String getName() {

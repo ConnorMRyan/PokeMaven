@@ -135,7 +135,7 @@ public class StatusBoostMove extends MoveBase {
 
 
     @Override
-    void usePP() {
+     void usePP() {
         PP = PP - 1;
     }
 }

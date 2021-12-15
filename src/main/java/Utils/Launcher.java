@@ -1,11 +1,10 @@
 package Utils;
 
-import BattleStuff.Battle;
-import BattleStuff.Team;
+import GSONClasses.Item.BattleStuff.Battle;
+import GSONClasses.Item.BattleStuff.Team;
 import TeamStuff.TeamBuilder;
 import TeamStuff.TeamParser;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -46,11 +45,11 @@ public class Launcher {
     void singlePlayer() {
         try {
             Scanner in = new Scanner(System.in);
-            System.out.println("Where is your team located?");
-            Team myTeam = TeamParser.makeTeam(new File(in.next()));
-            System.out.println("Which oppnenet team would you like to play?");
-            Team oppTeam = TeamParser.makeTeam(new File(in.next()));
-            Battle battle = new Battle(myTeam, oppTeam, true);
+            System.out.println("Where is your trainer name located?");
+            Team myTeam = TeamParser.makeTeam(in.next());
+            System.out.println("Which opponent would you like to play?");
+            Team oppTeam = TeamParser.makeTeam(in.next());
+            new Battle(myTeam, oppTeam, true);
         } catch (FileNotFoundException e) {
             System.err.println("Sorry, something went wrong. ");
             singlePlayer();
@@ -60,11 +59,11 @@ public class Launcher {
     void multiPlayer() {
         try {
             Scanner in = new Scanner(System.in);
-            System.out.println("Where is the first team located?");
-            Team firstTeam = TeamParser.makeTeam(new File(in.next()));
-            System.out.println("where is the second team located?");
-            Team secTeam = TeamParser.makeTeam(new File(in.next()));
-            Battle battle = new Battle(firstTeam, secTeam);
+            System.out.println("Where is your trainer name located?");
+            Team firstTeam = TeamParser.makeTeam(in.next());
+            System.out.println("Which opponent would you like to play?");
+            Team secTeam = TeamParser.makeTeam(in.next());
+            new Battle(firstTeam, secTeam);
         } catch (FileNotFoundException e) {
             System.err.println("Sorry, something went wrong. ");
             singlePlayer();

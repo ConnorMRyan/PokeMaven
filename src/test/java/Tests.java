@@ -51,7 +51,7 @@ public class Tests {
     @Test
     void testTeamParser() {
         try {
-            TeamParser.makeTeam(new File("Teams/BrockTeam"));
+            TeamParser.makeTeam("BrockTeam");
             assert (true);
         } catch (Exception e) {
             assert (false);

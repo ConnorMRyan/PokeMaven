@@ -1,45 +1,27 @@
 package TeamStuff;
 
 import ActionStuff.Move.BattleMove;
+import ActionStuff.Move.MoveBase;
 import ActionStuff.Move.StatusBoostMove;
-import BattleStuff.Team;
+import GSONClasses.Item.BattleStuff.Team;
+import GSONClasses.Deserializers.MoveBaseAdapter;
 import MonsterStuff.Monster;
-import Utils.DatabaseConnection;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Scanner;
 
 // Takes in and creates a new team from a File
 
 public class TeamParser {
-    public static Team makeTeam(File file) throws FileNotFoundException {
-        Scanner in = new Scanner(file);
-        DatabaseConnection db = new DatabaseConnection();
-        String teamName = in.nextLine();
-        Team team = new Team(teamName);
-        int numPokemon = in.nextInt();
-        in.nextLine();
-        for (int i = 0; i < numPokemon; i++) {
-            int numMoves = in.nextInt();
-            in.nextLine();
-            String pokeString = in.nextLine();
-            Scanner pokeScanner = new Scanner(pokeString);
-            pokeScanner.useDelimiter(",");
-            String name = pokeScanner.next();
-            int level = pokeScanner.nextInt();
-            if (pokeScanner.hasNext()) {
-                String nick = pokeScanner.next();
-                Monster monster = db.makeAMonster(name, level, nick);
-                getMove(in, team, numMoves, monster);
-            } else {
-                Monster monster = db.makeAMonster(name, level);
-                getMove(in, team, numMoves, monster);
-            }
-            pokeScanner.close();
-        }
-        in.close();
-        return team;
+    public static Team makeTeam(String trainerName) throws FileNotFoundException {
+        String file = "Teams/"+trainerName+".json";
+        Gson gson = new GsonBuilder().registerTypeAdapter(MoveBase.class, new MoveBaseAdapter())
+                .create();
+        return gson.fromJson(new FileReader(file),Team.class);
+
     }
 
     private static void getMove(Scanner in, Team team, int numMoves, Monster monster) {

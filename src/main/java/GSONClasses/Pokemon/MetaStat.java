@@ -1,4 +1,4 @@
-package GSONClasses;
+package GSONClasses.Pokemon;
 
 import com.google.gson.annotations.Expose;
 

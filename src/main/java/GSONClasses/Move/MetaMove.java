@@ -1,13 +1,15 @@
-package GSONClasses;
+package GSONClasses.Move;
+
+import GSONClasses.Game.VersionGroupDetail;
 
 import java.util.List;
 
-public class Move {
+public class MetaMove {
     String name;
     String url;
     List<VersionGroupDetail> version_group_details;
 
-    public Move(){
+    public MetaMove(){
     }
 
     public String getName() {

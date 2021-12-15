@@ -1,4 +1,4 @@
-package GSONClasses;
+package GSONClasses.Pokemon;
 
 public class Form {
     String name;

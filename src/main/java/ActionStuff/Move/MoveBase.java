@@ -8,8 +8,10 @@ public abstract class MoveBase extends BattleAction {
     String name;
     int PP;
     int maxPP;
-
+    MoveBase(){
+    }
     public void execute(Monster user, Monster defender) {}
+
 
     void usePP() {
         PP = PP - 1;

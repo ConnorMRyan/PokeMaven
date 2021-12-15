@@ -7,7 +7,7 @@ A command line to allow multiple players to recreate generation 1 pokemon battle
         
     - [x] Provides a character creator to easily build teams"# pokeproject" 
         - [x] Allows the user to create pokemon via name or ID
-        - [x] Allows user to create moves manually or import them via UI
+        - [x] Allows user to create metaMoves manually or import them via UI
      
 -[x] Allows the user to play a game.    
     -[x] Provides a single player game mode, where the player battles against an AI.
@@ -18,7 +18,7 @@ A command line to allow multiple players to recreate generation 1 pokemon battle
 - [ ] Allow the user to save a team to a database.
 - [ ] Allow the user to retrieve a team from a database. 
 - [ ] Add a battle tower mode. 
-- [ ] Add additional Utils.types of moves. 
+- [ ] Add additional Utils.types of metaMoves. 
 
 ##Tech stack
    - [x] Java 8
