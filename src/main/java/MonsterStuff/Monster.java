@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Monster {
   private final String NAME;
-  private final String FAMILY_NAME;
+  private final String SPECIES;
   private final int TYPE_ONE; // MonsterStuff.Monster's primary type
   private final int TYPE_TWO; // Optional secondary type
   private final int LEVEL;
@@ -37,7 +37,7 @@ public class Monster {
           int TYPE_TWO,
           int LEVEL,
           String NICK_NAME,
-          String FAMILY_NAME) {
+          String SPECIES) {
     //status = new MonsterStuff.Status();
     this.LEVEL = LEVEL;
     this.TOTAL_HP = convertBaseStat(HP) + 5 + LEVEL;
@@ -49,7 +49,7 @@ public class Monster {
     this.TYPE_ONE = TYPE_ONE;
     this.TYPE_TWO = TYPE_TWO;
     this.NAME = NICK_NAME;
-    this.FAMILY_NAME = FAMILY_NAME;
+    this.SPECIES = SPECIES;
   }
 
   /**
@@ -65,7 +65,7 @@ public class Monster {
           int TYPE_ONE,
           int TYPE_TWO,
           int LEVEL,
-          String FAMILY_NAME) {
+          String SPECIES) {
     //status = new MonsterStuff.Status();
     this.LEVEL = LEVEL;
     this.TOTAL_HP = convertBaseStat(HP) + 5 + LEVEL;
@@ -76,12 +76,12 @@ public class Monster {
     this.SPD = convertBaseStat(SPD);
     this.TYPE_ONE = TYPE_ONE;
     this.TYPE_TWO = TYPE_TWO;
-    this.NAME = FAMILY_NAME;
-    this.FAMILY_NAME = FAMILY_NAME;
+    this.NAME = SPECIES;
+    this.SPECIES = SPECIES;
   }
 
   public String toString() {
-    return NAME + " is a level " + LEVEL + " " + FAMILY_NAME;
+    return NAME + " is a level " + LEVEL + " " + SPECIES;
   }
 
   /**
@@ -173,7 +173,7 @@ public class Monster {
               && (((Monster) obj).SPC == this.SPC)
               && (((Monster) obj).SPD == this.SPD)
               && (((Monster) obj).TOTAL_HP == this.TOTAL_HP)
-              && (((Monster) obj).FAMILY_NAME.equals(this.FAMILY_NAME));
+              && (((Monster) obj).SPECIES.equals(this.SPECIES));
     } else {
       return false;
     }
@@ -190,9 +190,20 @@ public class Monster {
     return (((((stat + 15) * 2) + 63) * this.LEVEL) / 100) + 5;
   }
 
+
+
   /**
    * Various getters and setters
    */
+
+  public String getNAME() {
+    return NAME;
+  }
+
+  public String getSPECIES() {
+    return SPECIES;
+  }
+
   public int getType1() {
     return TYPE_ONE;
   }
@@ -201,16 +212,28 @@ public class Monster {
     return TYPE_TWO;
   }
 
+  public int getLEVEL() {
+    return LEVEL;
+  }
+
+  public int getTOTAL_HP() {
+    return TOTAL_HP;
+  }
+
   public int getCurrentHp() {
     return currentHp;
   }
 
-  public String getNAME() {
-    return NAME;
+  public void setCurrentHp(int currentHp) {
+    this.currentHp = currentHp;
   }
 
-  public ArrayList<MoveBase> getMovesList() {
-    return movesList;
+  public int getATK() {
+    return ATK;
+  }
+
+  public int getAtkMod() {
+    return atkMod;
   }
 
   public void setAtkMod(int atkMod) {
@@ -218,7 +241,7 @@ public class Monster {
   }
 
   public int getDEF() {
-    return getStat(DEF, defMod);
+    return DEF;
   }
 
   public int getDefMod() {
@@ -230,7 +253,7 @@ public class Monster {
   }
 
   public int getSPC() {
-    return getStat(SPC, spcMod);
+    return SPC;
   }
 
   public int getSpcMod() {
@@ -242,7 +265,7 @@ public class Monster {
   }
 
   public int getSPD() {
-    return getStat(SPD, spdMod);
+    return SPD;
   }
 
   public int getSpdMod() {
@@ -253,23 +276,15 @@ public class Monster {
     this.spdMod = spdMod;
   }
 
-  public int getLEVEL() {
-    return LEVEL;
+  public boolean isFainted() {
+    return fainted;
   }
 
-  public int getTOTAL_HP() {
-    return TOTAL_HP;
+  public void setFainted(boolean fainted) {
+    this.fainted = fainted;
   }
 
-  // public MonsterStuff.Status getStatus() {
-  //return status;
-  //}
-
-  public int getATK() {
-    return getStat(ATK, atkMod);
-  }
-
-  public int getAtkMod() {
-    return atkMod;
+  public ArrayList<MoveBase> getMovesList() {
+    return movesList;
   }
 }

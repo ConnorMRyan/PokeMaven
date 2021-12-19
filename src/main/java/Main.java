@@ -19,32 +19,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.OptionalInt;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        File folder = new File("MoveJSONs/ID/");
-        File[] listOfFiles = folder.listFiles();
-        Gson gson = new Gson();
-
-        for (File file : listOfFiles) {
-            if (file.isFile()) {
-                System.out.println(file.toString());
-                Move move = gson.fromJson(new FileReader(file),Move.class);
-                String name = move.getName();
-                FileWriter fw = new FileWriter("C:\\Users\\mynam\\IdeaProjects\\PokeMaven\\MoveJSONs\\NAME\\"+name+".json");
-                fw.write(gson.toJson(move));
-                fw.flush();
-                fw.close();
-            }
-        }
-
-
+        Launcher launcher = new Launcher();
+        launcher.Launch();
     }
 
 }

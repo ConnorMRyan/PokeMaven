@@ -1,4 +1,4 @@
-package GSONClasses.Item.BattleStuff;
+package BattleStuff;
 
 import ActionStuff.BattleAction;
 import ActionStuff.Move.MoveBase;
@@ -119,7 +119,7 @@ public class Battle {
   }
 
   void printBattleMenu() {
-    System.out.println("-_-_-PokeMav.BattleStuff.Battle Menu-_-_-");
+    System.out.println("-_-_-NigiriMon-_-_-");
     System.out.println("1: Attack");
     System.out.println("2: Use item");
     System.out.println("3: Switch Pokemon");
@@ -139,6 +139,7 @@ public class Battle {
   }
 
   void displayAttacks() {
+
     System.out.println("----" + activeTeam.activeMonster.getNAME() + "----");
     System.out.println("------Moves-----");
     for (int i = 0; i < activeTeam.activeMonster.getMovesList().size(); i++) {

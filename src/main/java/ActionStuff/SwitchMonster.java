@@ -1,6 +1,6 @@
 package ActionStuff;
 
-import GSONClasses.Item.BattleStuff.Team;
+import BattleStuff.Team;
 import MonsterStuff.Monster;
 
 import java.util.ArrayList;

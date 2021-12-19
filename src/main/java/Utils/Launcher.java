@@ -1,7 +1,7 @@
 package Utils;
 
-import GSONClasses.Item.BattleStuff.Battle;
-import GSONClasses.Item.BattleStuff.Team;
+import BattleStuff.Battle;
+import BattleStuff.Team;
 import TeamStuff.TeamBuilder;
 import TeamStuff.TeamParser;
 

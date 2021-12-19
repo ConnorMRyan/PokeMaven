@@ -3,7 +3,7 @@ package TeamStuff;
 import ActionStuff.Move.BattleMove;
 import ActionStuff.Move.MoveBase;
 import ActionStuff.Move.StatusBoostMove;
-import GSONClasses.Item.BattleStuff.Team;
+import BattleStuff.Team;
 import GSONClasses.Deserializers.MoveBaseAdapter;
 import MonsterStuff.Monster;
 import com.google.gson.Gson;

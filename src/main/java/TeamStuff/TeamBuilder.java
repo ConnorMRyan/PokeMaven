@@ -2,25 +2,27 @@ package TeamStuff;
 
 import ActionStuff.Move.BattleMove;
 import ActionStuff.Move.MoveBase;
-import ActionStuff.Move.StatusBoostMove;
-import GSONClasses.Item.BattleStuff.Team;
+import ActionStuff.Move.MoveBuilder;
+import BattleStuff.Team;
 import GSONClasses.Deserializers.MoveBaseAdapter;
+import GSONClasses.Move.Move;
 import MonsterStuff.Monster;
 import MonsterStuff.MonsterBuilder;
-import Utils.DatabaseConnection;
 import Utils.types;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import me.sargunvohra.lib.pokekotlin.client.PokeApi;
-import me.sargunvohra.lib.pokekotlin.client.PokeApiClient;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class TeamBuilder {
     private Scanner tbScan;
-    private DatabaseConnection db;
+    Gson gson = new GsonBuilder().registerTypeAdapter(MoveBase.class, new MoveBaseAdapter()).create();
+
 
     /**
      * Creates a text file in the format required to make a team,
@@ -36,20 +38,24 @@ public class TeamBuilder {
         Team team = new Team(nick);
         int numPoke = numPokemon();
         for (int i = 0; i < numPoke; i++) {
+            Monster monster;
+            if(isUsingID()) {
+                 monster = getPokeStringFromID();
+            }else{
+                monster = getPokeStringFromName();
+            }
             int numMoves = numMoves();
-            Monster monster = getPokeString();
             for (int j = 0; j < numMoves; j++) {
                 if (useAPIMove()) {
-                    MoveBase pokeMove = pokeMovesAPI();
+                    MoveBase pokeMove = pokeMovesID();
                     monster.addMove(pokeMove);
                 } else {
-                    MoveBase move = pokemonMovesMan();
+                    MoveBase move = pokeMovesName();
                     monster.addMove(move);
                 }
             }
             team.addMonster(monster);
         }
-        Gson gson = new GsonBuilder().registerTypeAdapter(MoveBase.class, new MoveBaseAdapter()).create();
         fileWriter.write(gson.toJson(team,Team.class));
         fileWriter.flush();
         fileWriter.close();
@@ -57,10 +63,14 @@ public class TeamBuilder {
     }
 
     boolean validPokemon(String pokemon) {
-        db = new DatabaseConnection();
-        return db.isValidPoke(pokemon);
+        // TODO: 12/15/2021 add validation based on the new pokeJSONs
+        return true;
     }
-
+    boolean isUsingID(){
+        System.out.println("Would you like to use the ID of a pokemon?");
+        String ID =  tbScan.next();
+        return ID.toUpperCase().charAt(0) == 'Y';
+    }
     String getUsername() {
         System.out.println("What would you like as a username?");
         return tbScan.nextLine();
@@ -77,19 +87,31 @@ public class TeamBuilder {
         }
     }
 
-    Monster getPokeString() throws IOException {
+    Monster getPokeStringFromID() throws IOException {
         // todo, validate user input;
-        System.out.println("What is the DexNO of pokemon you want ");
+        System.out.println("What is the DexNO of pokemon you want?");
         String dexNo = tbScan.next();
-
             int level = getLevel();
             String nick;
             if (hasNick()) {
                 nick = getNick();
-                return new MonsterBuilder().makeMonsterWithAPI(dexNo,level,nick);
+                return new MonsterBuilder().makeMonsterWithID(dexNo,level,nick);
             }
-            return new MonsterBuilder().makeMonsterWithAPI(dexNo,level);
+            return new MonsterBuilder().makeMonsterWithID(dexNo,level);
         }
+
+    Monster getPokeStringFromName() throws IOException {
+        // todo, validate user input;
+        System.out.println("What is the species of pokemon you want?");
+        String species = tbScan.next().toLowerCase();
+        int level = getLevel();
+        String nick;
+        if (hasNick()) {
+            nick = getNick();
+            return new MonsterBuilder().makeMonsterWithName(species,level,nick);
+        }
+        return new MonsterBuilder().makeMonsterWithName(species,level);
+    }
 
     boolean useAPIMove() {
         System.out.println("Would you like to use the ID to find the move? (y/N)");
@@ -131,21 +153,22 @@ public class TeamBuilder {
         this.tbScan = new Scanner(System.in);
     }
 
-    MoveBase pokeMovesAPI() {
+    MoveBase pokeMovesID() throws FileNotFoundException {
+        // TODO: 12/15/2021 REWORK THIS WHOLE METHOD based on move JSONs 
         System.out.println("What is the ID of your move?");
         int id = tbScan.nextInt();
-        PokeApi pokeApi = new PokeApiClient();
-        String cat = pokeApi.getMove(id).getMeta().getCategory().getName();
-        int type = findMoveType(id, cat);
-        switch (type) {
-            case (0):
-                return new BattleMove("" +id);
-            case (2):
-                return new StatusBoostMove("" +id);
-            default:
-                return null;
-        }
+        Move move = gson.fromJson(new FileReader("MoveJSONs/ID/"+ id+".json"),Move.class);
+        MoveBuilder moveBuilder = new MoveBuilder();
+        return moveBuilder.getMoveBase(move);
+    }
 
+    MoveBase pokeMovesName() throws FileNotFoundException {
+        // TODO: 12/15/2021 REWORK THIS WHOLE METHOD based on move JSONs
+        System.out.println("What is the ID of your move?");
+        String name = tbScan.next().toLowerCase();
+        Move move = gson.fromJson(new FileReader("MoveJSONs/NAME/"+ name+".json"),Move.class);
+        MoveBuilder moveBuilder = new MoveBuilder();
+        return moveBuilder.getMoveBase(move);
     }
 
     MoveBase pokemonMovesMan() {
@@ -178,39 +201,5 @@ public class TeamBuilder {
         tbScan.close();
     }
 
-    int findMoveType(int id, String cat) {
-        System.out.println(cat);
-        switch (cat) {
-            case ("damage"):
-                return 0;
-            case ("ailment"):
-                return 1;
-            case ("net-good-stats"):
-                return 2;
-            case ("heal"):
-                return 3;
-            case ("damage+ailment"):
-                return 0;
-            case ("swagger"):
-                return 5;
-            case ("damage+lower"):
-                return 6;
-            case ("damage+raise"):
-                return 7;
-            case ("damage+heal"):
-                return 8;
-            case ("ohko"):
-                return 9;
-            case ("whole-field-effect"):
-                return 10;
-            case ("field-effect"):
-                return 11;
-            case ("force-switch"):
-                return 12;
-            case ("unique"):
-                return 13;
-            default:
-                return -1;
-        }
-    }
+
 }

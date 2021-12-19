@@ -3,6 +3,7 @@ package GSONClasses.Pokemon;
 import GSONClasses.Game.GameIndex;
 import GSONClasses.Item.HeldItem;
 import GSONClasses.Move.MetaMove;
+import GSONClasses.NamedURL;
 import com.google.gson.annotations.Expose;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class Pokemon {
     @Expose
     String name;
     int order;
-    List<String> past_types;
+    List<NamedURL> past_types;
     Species species;
     @Expose
     Sprite sprites;
@@ -133,13 +134,7 @@ public class Pokemon {
         this.order = order;
     }
 
-    public List<String> getPast_types() {
-        return past_types;
-    }
 
-    public void setPast_types(List<String> past_types) {
-        this.past_types = past_types;
-    }
 
     public Species getSpecies() {
         return species;

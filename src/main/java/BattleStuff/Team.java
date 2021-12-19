@@ -1,4 +1,4 @@
-package GSONClasses.Item.BattleStuff;
+package BattleStuff;
 
 import MonsterStuff.Monster;
 

@@ -272,17 +272,6 @@ class FlavorText{
     NamedURL versionGroup;
 }
 
-class MetaData{
-    int ailment_chance;
-    int crit_rate;
-    int drain;
-    int flinch_chance;
-    int healing;
-    int stat_chance;
-    NamedURL category;
-    NamedURL  ailment;
-    String name;
-}
 
 class StatChange{
     int change;
